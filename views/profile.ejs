@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+    <!-- for css file -->
+    <link rel="stylesheet" href="/src/output.css">
+</head>
+
+<body class="h-screen w-full flex container m-auto flex-col relative max-w-3xl">
+    
+    <!-- for the upper part of the page , that is the profile image , follow button , message button , bg image & buttons -->
+    <div class="h-[35%] flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl">
+        <!-- for the buttons part -->
+         <div class="h-20 w-full absolute top-0 flex items-center justify-between flex-row">
+            <!--  FOR THE BACK BUTTON -->
+            <div id="backbutton" class="p-5">
+                <svg xmlns="http://www.w3.org/2000/svg" stroke="white" stroke-width="0.5" width="30" height="30" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/arrow-left-04-solid-standard.svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 12.5523 9.44772 13 10 13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H10C9.44772 11 9 11.4477 9 12Z" fill="#000000" ></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4719 7.11807C10.7971 7.29209 11.0001 7.63095 11.0001 7.99976V15.9998C11.0001 16.3685 10.7971 16.7074 10.472 16.8814C10.1468 17.0554 9.75227 17.0364 9.44541 16.8318L3.44541 12.8322C3.16721 12.6468 3.00009 12.3345 3.00008 12.0002C3.00006 11.6658 3.16715 11.3536 3.44534 11.1681L9.44534 7.16773C9.75219 6.96314 10.1467 6.94406 10.4719 7.11807Z" fill="#000000" ></path>
+                    </svg>
+            </div>
+            <!-- FOR THE NOTIFICATION ICON AND 3 DOTS -->
+             <div class="p-5">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50">
+                    <path fill="#ffffff"
+                        d="M 25 0 C 22.800781 0 21 1.800781 21 4 C 21 4.515625 21.101563 5.015625 21.28125 5.46875 C 15.65625 6.929688 12 11.816406 12 18 C 12 25.832031 10.078125 29.398438 8.25 31.40625 C 7.335938 32.410156 6.433594 33.019531 5.65625 33.59375 C 5.265625 33.878906 4.910156 34.164063 4.59375 34.53125 C 4.277344 34.898438 4 35.421875 4 36 C 4 37.375 4.84375 38.542969 6.03125 39.3125 C 7.21875 40.082031 8.777344 40.578125 10.65625 40.96875 C 13.09375 41.472656 16.101563 41.738281 19.40625 41.875 C 19.15625 42.539063 19 43.253906 19 44 C 19 47.300781 21.699219 50 25 50 C 28.300781 50 31 47.300781 31 44 C 31 43.25 30.847656 42.535156 30.59375 41.875 C 33.898438 41.738281 36.90625 41.472656 39.34375 40.96875 C 41.222656 40.578125 42.78125 40.082031 43.96875 39.3125 C 45.15625 38.542969 46 37.375 46 36 C 46 35.421875 45.722656 34.898438 45.40625 34.53125 C 45.089844 34.164063 44.734375 33.878906 44.34375 33.59375 C 43.566406 33.019531 42.664063 32.410156 41.75 31.40625 C 39.921875 29.398438 38 25.832031 38 18 C 38 11.820313 34.335938 6.9375 28.71875 5.46875 C 28.898438 5.015625 29 4.515625 29 4 C 29 1.800781 27.199219 0 25 0 Z M 25 2 C 26.117188 2 27 2.882813 27 4 C 27 5.117188 26.117188 6 25 6 C 23.882813 6 23 5.117188 23 4 C 23 2.882813 23.882813 2 25 2 Z M 27.34375 7.1875 C 32.675781 8.136719 36 12.257813 36 18 C 36 26.167969 38.078125 30.363281 40.25 32.75 C 41.335938 33.941406 42.433594 34.6875 43.15625 35.21875 C 43.515625 35.484375 43.785156 35.707031 43.90625 35.84375 C 44.027344 35.980469 44 35.96875 44 36 C 44 36.625 43.710938 37.082031 42.875 37.625 C 42.039063 38.167969 40.679688 38.671875 38.9375 39.03125 C 35.453125 39.753906 30.492188 40 25 40 C 19.507813 40 14.546875 39.753906 11.0625 39.03125 C 9.320313 38.671875 7.960938 38.167969 7.125 37.625 C 6.289063 37.082031 6 36.625 6 36 C 6 35.96875 5.972656 35.980469 6.09375 35.84375 C 6.214844 35.707031 6.484375 35.484375 6.84375 35.21875 C 7.566406 34.6875 8.664063 33.941406 9.75 32.75 C 11.921875 30.363281 14 26.167969 14 18 C 14 12.261719 17.328125 8.171875 22.65625 7.21875 C 23.320313 7.707031 24.121094 8 25 8 C 25.886719 8 26.679688 7.683594 27.34375 7.1875 Z M 21.5625 41.9375 C 22.683594 41.960938 23.824219 42 25 42 C 26.175781 42 27.316406 41.960938 28.4375 41.9375 C 28.792969 42.539063 29 43.25 29 44 C 29 46.222656 27.222656 48 25 48 C 22.777344 48 21 46.222656 21 44 C 21 43.242188 21.199219 42.539063 21.5625 41.9375 Z"
+                        stroke="black" stroke-miterlimit="10" stroke-width="0.5"></path>
+                </svg>
+             </div>
+         </div>
+        <!-- for the image part -->
+         <div class="w-full h-full">
+            <img class="object-cover h-full w-full" src="/images/postimg2.jpeg" alt="background">
+         </div>
+    </div>
+    <!-- FOR THE CENTER PART I.E FOLLOWERS -->
+    <div class="h-auto flex flex-col items-center justify-between w-full z-50 bg-white max-w-3xl px-3">
+        <div class="h-1/3 w-full relative">
+            <!-- FOR THE PROFILE ICON -->
+             <div class="h-20 w-20 absolute p-1 bg-white rounded-full -top-[40%]">
+                <img class="aspect-square h-full w-full object-contain" src="/images/storiesicon.png" alt="">
+             </div>
+             <!-- FOR THE MESSAGE & FOLLOW PART -->
+              <div class="h-full w-auto p-1 bg-white flex items-center justify-end gap-2 flex-row">
+                <div id="messageProfile" class="h-20 w-20 rounded-full bg-gray-100 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/mail-01-solid-rounded.svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6823 2.78681C12.7265 2.73773 11.2735 2.73774 9.3177 2.78681L9.24285 2.78869C7.73349 2.82652 6.49161 2.85765 5.49064 3.03175C4.42828 3.21654 3.53876 3.57641 2.78536 4.33174C2.0359 5.08311 1.67705 5.9586 1.49526 7.00416C1.32465 7.98538 1.29883 9.19623 1.26758 10.6617L1.26597 10.7371C1.24467 11.7351 1.24468 12.265 1.26599 13.2629L1.2676 13.3383C1.29884 14.8038 1.32466 16.0146 1.49527 16.9959C1.67707 18.0414 2.03592 18.9169 2.78537 19.6683C3.53878 20.4236 4.42829 20.7835 5.49066 20.9683C6.49162 21.1424 7.7335 21.1735 9.24286 21.2113L9.31772 21.2132C11.2735 21.2623 12.7265 21.2623 14.6823 21.2132L14.7571 21.2113C16.2665 21.1735 17.5084 21.1423 18.5094 20.9682C19.5717 20.7835 20.4612 20.4236 21.2146 19.6683C21.9641 18.9169 22.323 18.0414 22.5047 16.9958C22.6754 16.0146 22.7012 14.8038 22.7324 13.3383L22.734 13.2629C22.7553 12.2649 22.7553 11.7351 22.734 10.7371L22.7324 10.6618C22.7012 9.19627 22.6753 7.98538 22.5047 7.00416C22.3229 5.9586 21.9641 5.08311 21.2146 4.33174C20.7913 3.90728 20.3249 3.6077 19.809 3.39389C19.7305 3.35104 19.6464 3.31873 19.5587 3.29811C19.2289 3.18184 18.8796 3.09616 18.5093 3.03176C17.5084 2.85765 16.2665 2.82652 14.7571 2.78868L14.6823 2.78681ZM20.6798 8.8503C20.6604 8.44479 20.6507 8.24204 20.5039 8.16109C20.3571 8.08014 20.1765 8.18242 19.8155 8.38697L15.5798 10.787C14.2801 11.5234 13.181 12 11.9998 12C10.8186 12 9.71946 11.5234 8.41985 10.787L4.18445 8.38719C3.82343 8.18263 3.64292 8.08035 3.49608 8.1613C3.34924 8.24225 3.33957 8.44501 3.32023 8.85053C3.29416 9.39704 3.28003 10.0306 3.26403 10.7797C3.24333 11.7492 3.24334 12.2508 3.26405 13.2203C3.29736 14.7803 3.32261 15.8393 3.46432 16.6543C3.59776 17.4218 3.82038 17.8777 4.20122 18.2595C4.5781 18.6374 5.04027 18.8638 5.83355 19.0018C6.67174 19.1476 7.76497 19.1776 9.36791 19.2178C11.2902 19.266 12.7098 19.266 14.6321 19.2178C16.235 19.1776 17.3283 19.1476 18.1665 19.0018C18.9597 18.8638 19.4219 18.6374 19.7988 18.2595C20.1796 17.8777 20.4023 17.4218 20.5357 16.6543C20.6774 15.8393 20.7027 14.7803 20.736 13.2203C20.7567 12.2508 20.7567 11.7492 20.736 10.7797C20.72 10.0305 20.7058 9.39687 20.6798 8.8503Z" fill="#000000"></path>
+                        </svg>
+                </div>
+                <div id="editProfile" class="h-20 w-20 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" color="#000000" fill="none">
+                        <path d="M15.2141 5.98239L16.6158 4.58063C17.39 3.80646 18.6452 3.80646 19.4194 4.58063C20.1935 5.3548 20.1935 6.60998 19.4194 7.38415L18.0176 8.78591M15.2141 5.98239L6.98023 14.2163C5.93493 15.2616 5.41226 15.7842 5.05637 16.4211C4.70047 17.058 4.3424 18.5619 4 20C5.43809 19.6576 6.94199 19.2995 7.57889 18.9436C8.21579 18.5877 8.73844 18.0651 9.78375 17.0198L18.0176 8.78591M15.2141 5.98239L18.0176 8.78591" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M11 20H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </div>
+              </div>
+        </div>
+        <div class="h-auto w-full">
+            <div class="font-bold"><%=name%></div>
+            <div class="text-sm"><%=username%></div>
+        </div>
+        <div class="h-auto w-full text-sm"><%=bio%></div>
+        <div class="h-20 flex items-center justify-center gap-2 flex-row w-full mt-4">
+            <!-- post number -->
+             <div class="flex items-center justify-center flex-col flex-1 border-r-2 border-gray-300">
+                <div class="font-bold text-xl"><%=post%></div>
+                <div class="text-[13px]">Posts</div>
+             </div>
+             <!-- for followers -->
+             <div class=" flex items-center justify-center flex-col flex-1 border-r-2 border-gray-300">
+                <div class="font-bold text-xl"><%=followers %></div>
+                <div class="text-[13px]">Followers</div>
+             </div>
+             <!-- for following -->
+             <div class=" flex items-center justify-center flex-col flex-1 border-r-2 border-gray-300">
+                <div class="font-bold text-xl"><%=following%></div>
+                <div class="text-[13px]">Followings</div>
+             </div>
+             <!-- for likes -->
+             <div class=" flex items-center justify-center flex-col flex-1">
+                <div class="font-bold text-xl"><%=likes %></div>
+                <div class="text-[13px]">Likes</div>
+             </div>
+             
+        </div>
+    </div>
+    <!-- FOR THE BOTTOM PART -->
+    <div class="h-auto flex-1 flex flex-col items-start w-full z-50 bg-white max-w-3xl">
+        <!-- for the post section -->
+         <div class="h-20 w-full bg-gray-200 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/inbox-unread-solid-rounded.svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                <path d="M14.25 5.5C14.25 3.15279 16.1528 1.25 18.5 1.25C20.8472 1.25 22.75 3.15279 22.75 5.5C22.75 7.84721 20.8472 9.75 18.5 9.75C16.1528 9.75 14.25 7.84721 14.25 5.5Z" fill="#000000"></path>
+                <path d="M20.2156 10.9897C19.9813 11.0629 19.8641 11.0994 19.8057 11.1792C19.7474 11.259 19.748 11.373 19.7491 11.6009C19.7513 12.0381 19.7518 12.4898 19.7519 12.9499C19.752 13.1155 19.6176 13.25 19.4519 13.25L16.072 13.25C14.7918 13.25 13.9366 14.2898 13.5261 15.1123C13.2358 15.6938 12.6723 16.25 11.4977 16.25C10.3231 16.25 9.7595 15.6938 9.46929 15.1123C9.05879 14.2898 8.20352 13.25 6.92333 13.25L3.55194 13.25C3.38626 13.25 3.25193 13.1155 3.25197 12.9499C3.25245 10.7983 3.26128 8.82894 3.41693 7.67121C3.57593 6.4886 3.87144 5.8272 4.35029 5.34835C4.82915 4.8695 5.49055 4.57399 6.67315 4.41499C7.88452 4.25212 9.9845 4.25 12.2519 4.25C12.3035 4.25 12.3542 4.25 12.4041 4.25001C12.6299 4.25002 12.7427 4.25003 12.822 4.19171C12.9014 4.13339 12.9377 4.0171 13.0103 3.78451C13.0682 3.59881 13.1354 3.41715 13.2111 3.24007C13.4166 2.75982 13.5193 2.51969 13.4304 2.38492C13.3415 2.25015 13.1029 2.25011 12.6257 2.25002C12.5291 2.25 12.4296 2.25 12.3268 2.25H11.6775C9.50152 2.24998 7.76678 2.24996 6.40666 2.43283C5.00228 2.62164 3.84847 3.02175 2.93608 3.93414C2.02369 4.84653 1.62358 6.00033 1.43477 7.40471C1.2708 8.62426 1.25387 10.5469 1.25214 12.4999L1.25 14.0037C1.25858 15.7454 1.29789 17.1539 1.50296 18.2892C1.71192 19.4461 2.10342 20.3839 2.85859 21.1391C3.71679 21.9973 4.80904 22.3843 6.1857 22.5694C7.52911 22.75 9.24978 22.75 11.4405 22.75H11.5548C13.7455 22.75 15.4662 22.75 16.8097 22.5694C18.1863 22.3843 19.2786 21.9973 20.1368 21.1391C20.8919 20.3839 21.2834 19.4461 21.4924 18.2892C21.6975 17.1539 21.7368 15.7454 21.7453 14.0037L21.7517 12.5C21.7514 12.1187 21.7505 11.7385 21.748 11.3645C21.7449 10.8942 21.7433 10.6591 21.6087 10.5709C21.4741 10.4828 21.2371 10.5844 20.763 10.7876C20.585 10.8638 20.4023 10.9314 20.2156 10.9897Z" fill="#000000"></path>
+                </svg>
+         </div>
+         <!-- for the post part -->
+          <div class="h-full w-full grid grid-cols-3 border border-gray-300">
+            <div class="border aspect-square border-red-500">Post1</div>
+            <div class="border aspect-square border-red-500">Post2</div>
+            <div class="border aspect-square border-red-500">Post3</div>
+            <div class="border aspect-square border-red-500">Post4</div>
+            <div class="border aspect-square border-red-500">Post5</div>
+            <div class="border aspect-square border-red-500">Post6</div>
+            <div class="border aspect-square border-red-500">Post7</div>
+          </div>
+    </div>
+
+    <!-- for the edit part -->
+     <!-- <div class="h-full absolute z-50 flex items-center justify-center max-w-3xl">
+        <div class="fixed h-auto w-full bg-white border border-red-400">
+            <div>[profilepic]</div>
+            <div>[name]</div>
+            <div>[bio]</div>
+        </div>
+     </div> -->
+
+</body>
+<script src="/js/profileScript.js"></script>
+
+</html>
