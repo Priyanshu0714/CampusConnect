@@ -3,8 +3,14 @@ const app = express();
 // for the profile part
 const profile=require("./profile.js")
 const authentication=require("./authenticationB.js")
+const anyonomousChat=require("./anyonomousChat.js")
 const mongodb=require("./mongodbConnection.js")
 const session=require("express-session")
+const uploadRoute = require("./uploadRoute");
+const User = require("./models/user.js");
+const post = require("./models/posts.js");
+const like= require("./models/postlikes.js");
+const follow= require("./models/follow.js");
 const port = 3000;
 
 app.set("view engine", "ejs");
@@ -32,19 +38,70 @@ app.use(
 app.use("/profile",profile)
 // FOR AUTHENTICATION
 app.use("/authentication",authentication)
+// FOR UPLOADS ROUTE
+app.use("/file", uploadRoute); 
+// FOR ANYONOMUS CHATTING
+app.use("/anyonomousChat",anyonomousChat);
 
 
 
-app.get("/", (req, res) => {
+
+app.get("/", async(req, res) => {
   if(req.session.username&&req.session.password){
-    res.render("index")
+    const user=await User.findOne({username:req.session.username})
+    // console.log(user)
+    const posts=await post.find().sort({timestamp:-1})
+
+    // to get your followers list
+    const yourfollowing=await follow.find({
+      userID:req.session.username
+    })
+    const yourfollowingProfile=await Promise.all(
+      yourfollowing.map(async(item)=>{
+        return await User.findOne({username:item.followingID})
+    }))
+    // to create the users array
+    const postOwnerUsername = await Promise.all(
+      posts.map(async (item) => {
+        return await User.findOne({ username: item.postOwner });
+      })
+    );
+    const totalpostlikes=await Promise.all(
+      posts.map(async(item)=>{
+        return await like.find({postID:item.id}).countDocuments()
+      })
+    )
+    res.render("index",{
+      yourfollowingProfile,
+      user,
+      posts:posts,
+      currentuser:postOwnerUsername,
+      like:totalpostlikes,
+    })
   }
   else{
     res.render("authenticationLogin")
-    // res.render('index')
   }
 });
 
 app.listen(port, (req, res) => {
   console.log(`Server running at http://:${port}`);
 });
+
+app.post("/like",async(req,res)=>{
+  if(await like.findOne({postID:req.body.id,userID:req.session.username})){
+
+      await like.findOneAndDelete(
+        {postID:req.body.id,userID:req.session.username},
+      )
+      return res.status(200).send({success:false})
+    }else{
+    const Like=new like({
+      postID:req.body.id,
+      userID:req.session.username,
+      postLikes:true
+    })
+    await Like.save()
+    return res.status(200).send({success:true})
+  }
+})

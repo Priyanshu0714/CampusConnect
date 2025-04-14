@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+    <!-- for css file -->
+    <link rel="stylesheet" href="/src/output.css">
+</head>
+
+<body class="h-screen w-full flex items-center justify-center container m-auto flex-col relative max-w-3xl">
+    <!-- for the logo and message and notification part -->
+    <div
+        class="h-20 fixed top-0 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl border-b border-[#bee84a]">
+        <div class="flex flex-row gap-1 items-center justify-center h-full">
+            <img class="object-contain" src="/images/newlogo.svg" alt="">
+            <div class="text-4xl font-custom">Campus Connect</div>
+        </div>
+        <div id="HomePage" class="flex flex-row gap-1 items-center justify-center h-full p-1 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                class="injected-svg" data-src="https://cdn.hugeicons.com/icons/cancel-01-solid-standard.svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                <path
+                    d="M4.11654 18.116C3.62839 18.6041 3.62839 19.3956 4.11654 19.8838C4.6047 20.3719 5.39616 20.3719 5.88431 19.8838L19.8843 5.88376C20.3725 5.39561 20.3725 4.60415 19.8843 4.11599C19.3962 3.62784 18.6047 3.62784 18.1165 4.11599L4.11654 18.116Z"
+                    fill="#000000"></path>
+                <path
+                    d="M5.88434 4.11599C5.39619 3.62784 4.60473 3.62784 4.11657 4.11599C3.62842 4.60415 3.62842 5.39561 4.11657 5.88376L18.1166 19.8838C18.6047 20.3719 19.3962 20.3719 19.8843 19.8838C20.3725 19.3956 20.3725 18.6041 19.8843 18.116L5.88434 4.11599Z"
+                    fill="#000000"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- anoyonomus chatting -->
+    <div class="flex-1 border border-[#bee84a] w-full relative">
+        <!-- for the top div -->
+        <div class="h-10 w-full absolute top-20 flex items-center justify-center">
+            <div class="h-full bg-[#bee84a] flex items-center justify-center px-2 rounded-full gap-2 opacity-80">
+                <div><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
+                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path
+                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+                    </svg></div>
+                <div>Chats are Anoyonomous</div>
+            </div>
+        </div>
+        <!-- this part is for chats -->
+        <div id="chattingarea" class="h-full w-full flex items-start justify-end flex-col py-20 px-2 gap-2">
+            <%chatarray.forEach(element=> {%>
+                <div class="py-2 px-3 border border-[#bee84a] rounded-full text-lg flex flex-row-reverse gap-3"><%=element.message %><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                            color="#000000" fill="none">
+                            <path
+                                d="M7 14.9999C5.34315 14.9999 4 16.343 4 17.9999C4 19.6567 5.34315 20.9999 7 20.9999C8.65685 20.9999 10 19.6567 10 17.9999C10 16.343 8.65685 14.9999 7 14.9999Z"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
+                            <path
+                                d="M17 14.9999C15.3431 14.9999 14 16.343 14 17.9999C14 19.6567 15.3431 20.9999 17 20.9999C18.6569 20.9999 20 19.6567 20 17.9999C20 16.343 18.6569 14.9999 17 14.9999Z"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
+                            <path d="M14 17H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path
+                                d="M22 12.9999C19.5434 11.7724 15.9734 10.9999 12 10.9999C8.02658 10.9999 4.45659 11.7724 2 12.9999"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
+                            <path
+                                d="M19 11.4999L17.9425 4.71233C17.7268 3.32807 16.2232 2.578 15.0093 3.24907L14.3943 3.58903C12.9019 4.414 11.0981 4.414 9.60574 3.58903L8.99074 3.24907C7.77676 2.578 6.27318 3.32808 6.05751 4.71233L5 11.4999"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
+                        </svg></div>
+                </div>
+                <%  }); %>
+        </div>
+        <!-- this part is for the send message button -->
+        <div
+            class="border border-[#bee84a] w-full bg-white absolute bottom-1 h-16 rounded-full p-2 flex items-center justify-start flex-row">
+            <form action="/anyonomousChat/" method="post"
+                class="h-full w-full flex items-center justify-center flex-row">
+                <input id="message" class="flex-1 border-none h-full outline-none rounded-full text-lg p-1" type="text"
+                    name="message" placeholder="Message...">
+                <button type="submit" class="h-16 w-16 flex items-center justify-center rounded-full cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30"
+                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#030303"
+                            d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+    <script src="/js/anyonomousConfession.js"></script>
+</body>
+
+</html>

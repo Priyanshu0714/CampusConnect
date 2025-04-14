@@ -15,12 +15,18 @@ router.get("/", async (req, res) => {
         }),
         follow.find({ userID: req.session.username }),
         follow.find({ followingID: req.session.username }),
-        post.find({ postOwner: req.session.username }),
+        post.find({ postOwner: req.session.username }).sort({timestamp:-1}),
       ]);
+
 
     const following = followingusers.length;
     const followers = followersuser.length;
     const postNum = totalpost.length;
+    let totalposturl=[]
+    // for getting the array of posts
+    totalpost.forEach(a=>{
+      totalposturl.push(a);
+    })
     // for the likes part
     let likesCount = 0;
     if (totalpost.length == 0) {
@@ -30,8 +36,9 @@ router.get("/", async (req, res) => {
         likesCount = likesCount + e.likes;
       });
     }
-
     return res.render("profile", {
+      profileImg:finduser.profileimg,
+      totalposturl:totalposturl,
       name: finduser.name,
       username: finduser.username,
       bio: finduser.bio,
@@ -93,10 +100,10 @@ router.get("/userprofile/:id", async (req, res) => {
     else{
         status=false;
     }
+    console.log(finduser)
   return res.render("searchuserprofile", {
-    username: finduser.username,
-    name: finduser.name,
-    bio: finduser.bio,
+    finduser:finduser,
+    totalpost,
     followstatus: status,
     userid: userid,
     post:postNum,
@@ -118,4 +125,12 @@ router.post("/followuser", async (req, res) => {
   return res.status(200).send({ success: true });
 });
 
+router.post("/editprofile",async(req,res)=>{
+  const data=req.body
+  if(req.session.username&&req.session.password){
+    const editprofile=await user.updateOne({username:req.session.username},{$set:{name:data.newname,bio:data.newbio}})
+    return res.status(200).send({success:true})
+  }
+  return res.status(400).send({success:false})
+})
 module.exports = router;

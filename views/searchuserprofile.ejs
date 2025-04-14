@@ -41,7 +41,7 @@
         <div class="h-[25%] w-full relative">
             <!-- FOR THE PROFILE ICON -->
              <div class="h-20 w-20 absolute p-1 bg-white rounded-full -top-[40%]">
-                <img class="aspect-square h-full w-full object-contain" src="/images/storiesicon.png" alt="">
+                <img class="h-full w-full object-cover rounded-full overflow-hidden" src="<%=finduser.profileimg %>" alt="">
              </div>
              <!-- FOR THE MESSAGE & FOLLOW PART -->
               <div class="h-[full] w-auto p-1 bg-white flex items-center justify-end gap-2 flex-row">
@@ -53,10 +53,10 @@
               </div>
         </div>
         <div class="h-auto w-full">
-            <div class="font-bold"><%=name%></div>
-            <div class="text-sm"><%=username%></div>
+            <div class="font-bold"><%=finduser.name%></div>
+            <div class="text-sm"><%=finduser.username%></div>
         </div>
-        <div class="h-auto w-full text-sm"><%=bio%></div>
+        <div class="h-auto w-full text-sm"><%=finduser.bio%></div>
         <!-- follow button -->
         <div id="<%=userid%>" class="followuser h-8 w-full flex items-center justify-start my-2">
             <button class="followstatus h-8 w-20 rounded-md bg-gray-200"><% if (followstatus) { %>
@@ -102,14 +102,26 @@
                 </svg>
          </div>
          <!-- for the post part -->
-          <div class="h-full w-full grid grid-cols-3 border border-gray-300">
-            <div class="border aspect-square border-red-500">Post1</div>
-            <div class="border aspect-square border-red-500">Post2</div>
+         <div class="h-full w-full grid grid-cols-3 border border-gray-300">
+            <% if (totalpost.length<=0) { %>
+                <div class="border border-gray-200 w-full font-bold text-xl col-span-full text-center">
+                    No post to show
+                </div>
+            <% } else { %>
+                <% totalpost.forEach(element => { %>
+                    <div class="border aspect-square border-gray-200">
+                        <img class="object-cover h-full w-full overflow-hidden" src="<%=element.postURL%>" alt="img">
+                    </div>
+                <% }) %>
+            <% } %>
+
+            
+            <!-- <div class="border aspect-square border-red-500">Post2</div>
             <div class="border aspect-square border-red-500">Post3</div>
             <div class="border aspect-square border-red-500">Post4</div>
             <div class="border aspect-square border-red-500">Post5</div>
             <div class="border aspect-square border-red-500">Post6</div>
-            <div class="border aspect-square border-red-500">Post7</div>
+            <div class="border aspect-square border-red-500">Post7</div> -->
           </div>
     </div>
 

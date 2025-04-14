@@ -60,7 +60,7 @@
         <!-- for the admin div -->
         <div
             class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a] rounded-full p-1 flex items-center justify-center flex-shrink-0 relative">
-            <img class="bg-white h-full w-full object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
+            <img class="bg-white h-full w-full object-cover rounded-full" src="<%=user.profileimg%>" alt="IMG">
             <div
                 class="h-8 w-8 absolute bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full bottom-0 right-0 flex items-center justify-center flex-shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
@@ -70,334 +70,114 @@
                 </svg>
             </div>
         </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
-        <div
-            class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
-            <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
-        </div>
+        <% yourfollowingProfile.forEach(element=> { %>
+            <div
+                class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a] rounded-full p-1 flex items-center justify-center flex-shrink-0">
+                <img class="bg-white object-contain rounded-full overflow-hidden" src="<%=element.profileimg%>" alt="IMG">
+            </div>
+            <% }) %>
+
+
+                <!-- <div
+                    class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
+                    <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
+                </div>
+                <div
+                    class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
+                    <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
+                </div>
+                <div
+                    class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
+                    <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
+                </div>
+                <div
+                    class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
+                    <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
+                </div>
+                <div
+                    class="h-20 w-20 bg-gradient-to-b from-[#f4ff26] to-[#bee84a]  rounded-full p-1 flex items-center justify-center flex-shrink-0">
+                    <img class="bg-white object-contain rounded-full" src="/images/storiesicon.png" alt="IMG">
+                </div> -->
 
     </div>
     <!-- for the content part -->
     <div
         class="flex justify-start items-center flex-1 w-full overflow-y-scroll flex-col gap-1 max-w-2xl scrollbar-hide p-3 bg-gray-100 pb-20">
         <!-- content 1 -->
-        <div class="w-full h-auto border border-gray-300 rounded-xl p-3 flex flex-col gap-2 bg-white">
-            <!-- for the top part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-row flex-shrink-0">
-                <div class="h-10 w-10">
-                    <img src="/images/storiesicon.png" alt="">
-                </div>
-                <div class="flex-1 h-[80%] w-full p-2">
-                    <div class="h-[50%] w-auto font-custom text-2xl px-1">
-                        priyanshu1401
+        <% posts.forEach((element,index)=> { %>
+            <div class="w-full h-auto border border-gray-300 rounded-xl p-3 flex flex-col gap-2 bg-white">
+                <!-- for the top part -->
+                <div class="h-20 w-full rounded-lg flex items-center justify-center flex-row flex-shrink-0">
+                    <div class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full">
+                        <img class="h-full w-full object-cover" src="<%=currentuser[index].profileimg %>" alt="">
                     </div>
-                    <div class="h-[50%] w-auto flex items-center justify-start flex-row gap-1">
-                        <div class="text-[12px]">Priyanshu</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]">1 min ago</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
-                                height="18" color="#000000" fill="none">
-                                <path
-                                    d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg></div>
+                    <div class="flex-1 h-[80%] w-full p-2">
+                        <div class="h-[50%] w-auto font-custom text-2xl px-1">
+                            <%=currentuser[index].name %>
+                        </div>
+                        <div class="h-[50%] w-auto flex items-center justify-start flex-row gap-1">
+                            <div class="text-[12px]">
+                                <%=currentuser[index].username %>
+                            </div>
+                            <div class="text-xl">&middot;</div>
+                            <div class="text-[12px]">1 min ago</div>
+                            <div class="text-xl">&middot;</div>
+                            <div class="text-[12px]"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    width="18" height="18" color="#000000" fill="none">
+                                    <path
+                                        d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                </svg></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- for the image part -->
-            <div class="flex-1 w-full bg-gray-300 rounded-lg overflow-hidden">
-                <img class="h-full w-full aspect-video object-cover ml-auto mr-auto block" src="/images/postimg2.jpeg"
-                    alt="img">
-            </div>
-            <!-- for the bottom part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-col flex-shrink-0 p-2">
-                <!-- for caption -->
-                <div class="h-[50%] w-full text-[15px]">
-                    This is the most loved fruit in this world.
+                <!-- for the image part -->
+                <div class="flex-1 w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <img class="h-full w-full aspect-video object-contain ml-auto mr-auto block"
+                        src="<%=element.postURL %>" alt="img">
                 </div>
-                <div class="h-[50%] w-full flex items-center justify-start flex-row gap-4">
-                    <!-- for likes -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <img src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-icon.1345c266e68871fdd7b62ace4997580a.svg"
-                            alt="(img)">
-                        <div class="h-auto text-[12px]">132K</div>
+                <!-- for the bottom part -->
+                <div class="h-20 w-full rounded-lg flex items-center justify-center flex-col flex-shrink-0 p-2">
+                    <!-- for caption -->
+                    <div class="h-[50%] w-full text-[15px]">
+                        <%=element.caption %>
                     </div>
+                    <div class="h-[50%] w-full flex items-center justify-start flex-row gap-4">
+                        <!-- for likes -->
+                        <div class="userlikebutton h-full w-auto flex flex-row gap-2 items-center justify-center">
 
-                    <!-- for comments -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
-                            color="#000000" fill="none">
-                            <path d="M8 13.5H16M8 8.5H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                        <div class="h-auto text-[12px]">460</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- content 2 -->
-        <div class="w-full h-auto border border-gray-300 rounded-xl p-3 flex flex-col gap-2 bg-white">
-            <!-- for the top part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-row flex-shrink-0">
-                <div class="h-10 w-10">
-                    <img src="/images/storiesicon.png" alt="">
-                </div>
-                <div class="flex-1 h-[80%] w-full p-2">
-                    <div class="h-[50%] w-auto font-custom text-2xl px-1">
-                        priyanshu1401
-                    </div>
-                    <div class="h-[50%] w-auto flex items-center justify-start flex-row gap-1">
-                        <div class="text-[12px]">Priyanshu</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]">1 min ago</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
-                                height="18" color="#000000" fill="none">
-                                <path
-                                    d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg></div>
-                    </div>
-                </div>
-            </div>
-            <!-- for the image part -->
-            <div class="flex-1 w-full bg-gray-300 rounded-lg overflow-hidden">
-                <img class="h-full w-full aspect-video object-cover ml-auto mr-auto block" src="/images/postimg1.jpeg"
-                    alt="img">
-            </div>
-            <!-- for the bottom part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-col flex-shrink-0 p-2">
-                <!-- for caption -->
-                <div class="h-[50%] w-full text-[15px]">
-                    This is the most loved fruit in this world.
-                </div>
-                <div class="h-[50%] w-full flex items-center justify-start flex-row gap-4">
-                    <!-- for likes -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <img src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-icon.1345c266e68871fdd7b62ace4997580a.svg"
-                            alt="(img)">
-                        <div class="h-auto text-[12px]">132K</div>
-                    </div>
+                            <% if (like[index]) { %>
+                                <img class="cursor-pointer" id="<%=element.id %>"
+                                    src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-selected.e1d3324ddd4f0001c62e7a8472402679.svg"
+                                    alt="img">
+                                <% } else { %>
+                                    <img class="cursor-pointer" id="<%=element.id%>"
+                                        src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-icon.1345c266e68871fdd7b62ace4997580a.svg"
+                                        alt="(img)">
+                                    <% } %>
+                                        <div class="h-auto text-[12px]">
+                                            <%=like[index] %>
+                                        </div>
+                        </div>
 
-                    <!-- for comments -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
-                            color="#000000" fill="none">
-                            <path d="M8 13.5H16M8 8.5H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                        <div class="h-auto text-[12px]">460</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- content 3 -->
-        <div class="w-full h-auto border border-gray-300 rounded-xl p-3 flex flex-col gap-2 bg-white">
-            <!-- for the top part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-row flex-shrink-0">
-                <div class="h-10 w-10">
-                    <img src="/images/storiesicon.png" alt="">
-                </div>
-                <div class="flex-1 h-[80%] w-full p-2">
-                    <div class="h-[50%] w-auto font-custom text-2xl px-1">
-                        priyanshu1401
-                    </div>
-                    <div class="h-[50%] w-auto flex items-center justify-start flex-row gap-1">
-                        <div class="text-[12px]">Priyanshu</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]">1 min ago</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
-                                height="18" color="#000000" fill="none">
+                        <!-- for comments -->
+                        <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
+                                color="#000000" fill="none">
+                                <path d="M8 13.5H16M8 8.5H12" stroke="currentColor" stroke-width="1"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                                 <path
-                                    d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg></div>
+                                    d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            </svg>
+                            <div class="h-auto text-[12px]">
+                                <%=element.Comment %>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- for the image part -->
-            <div class="flex-1 w-full bg-gray-300 rounded-lg overflow-hidden">
-                <img class="h-full w-full aspect-video object-cover ml-auto mr-auto block" src="/images/postimg3.jpeg"
-                    alt="img">
-            </div>
-            <!-- for the bottom part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-col flex-shrink-0 p-2">
-                <!-- for caption -->
-                <div class="h-[50%] w-full text-[15px]">
-                    This is the most loved fruit in this world.
-                </div>
-                <div class="h-[50%] w-full flex items-center justify-start flex-row gap-4">
-                    <!-- for likes -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <img src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-icon.1345c266e68871fdd7b62ace4997580a.svg"
-                            alt="(img)">
-                        <div class="h-auto text-[12px]">132K</div>
-                    </div>
-
-                    <!-- for comments -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
-                            color="#000000" fill="none">
-                            <path d="M8 13.5H16M8 8.5H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                        <div class="h-auto text-[12px]">460</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- content 4 -->
-        <div class="w-full h-auto border border-gray-300 rounded-xl p-3 flex flex-col gap-2 bg-white">
-            <!-- for the top part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-row flex-shrink-0">
-                <div class="h-10 w-10">
-                    <img src="/images/storiesicon.png" alt="">
-                </div>
-                <div class="flex-1 h-[80%] w-full p-2">
-                    <div class="h-[50%] w-auto font-custom text-2xl px-1">
-                        priyanshu1401
-                    </div>
-                    <div class="h-[50%] w-auto flex items-center justify-start flex-row gap-1">
-                        <div class="text-[12px]">Priyanshu</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]">1 min ago</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
-                                height="18" color="#000000" fill="none">
-                                <path
-                                    d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg></div>
-                    </div>
-                </div>
-            </div>
-            <!-- for the image part -->
-            <div class="flex-1 w-full bg-gray-300 rounded-lg overflow-hidden">
-                <img class="h-full w-full object-cover ml-auto mr-auto block aspect-video" src="/images/postimg4.webp"
-                    alt="img">
-            </div>
-            <!-- for the bottom part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-col flex-shrink-0 p-2">
-                <!-- for caption -->
-                <div class="h-[50%] w-full text-[15px]">
-                    This is the most loved fruit in this world.
-                </div>
-                <div class="h-[50%] w-full flex items-center justify-start flex-row gap-4">
-                    <!-- for likes -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <img src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-icon.1345c266e68871fdd7b62ace4997580a.svg"
-                            alt="(img)">
-                        <div class="h-auto text-[12px]">132K</div>
-                    </div>
-
-                    <!-- for comments -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
-                            color="#000000" fill="none">
-                            <path d="M8 13.5H16M8 8.5H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                        <div class="h-auto text-[12px]">460</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- content 5 -->
-        <div class="w-full h-auto border border-gray-300 rounded-xl p-3 flex flex-col gap-2 bg-white">
-            <!-- for the top part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-row flex-shrink-0">
-                <div class="h-10 w-10">
-                    <img src="/images/storiesicon.png" alt="">
-                </div>
-                <div class="flex-1 h-[80%] w-full p-2">
-                    <div class="h-[50%] w-auto font-custom text-2xl px-1">
-                        priyanshu1401
-                    </div>
-                    <div class="h-[50%] w-auto flex items-center justify-start flex-row gap-1">
-                        <div class="text-[12px]">Priyanshu</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]">1 min ago</div>
-                        <div class="text-xl">&middot;</div>
-                        <div class="text-[12px]"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
-                                height="18" color="#000000" fill="none">
-                                <path
-                                    d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg></div>
-                    </div>
-                </div>
-            </div>
-            <!-- for the image part -->
-            <div class="flex-1 w-full bg-gray-300 rounded-lg overflow-hidden">
-                <img class="h-full w-full object-cover aspect-video ml-auto mr-auto block" src="/images/postimg5.jpeg"
-                    alt="img">
-            </div>
-            <!-- for the bottom part -->
-            <div class="h-20 w-full rounded-lg flex items-center justify-center flex-col flex-shrink-0 p-2">
-                <!-- for caption -->
-                <div class="h-[50%] w-full text-[15px]">
-                    This is the most loved fruit in this world.
-                </div>
-                <div class="h-[50%] w-full flex items-center justify-start flex-row gap-4">
-                    <!-- for likes -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <img src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/organization/62d539deb767fec5c06847bd/theme/assets/wishlist-icon.1345c266e68871fdd7b62ace4997580a.svg"
-                            alt="(img)">
-                        <div class="h-auto text-[12px]">132K</div>
-                    </div>
-
-                    <!-- for comments -->
-                    <div class="h-full w-auto flex flex-row gap-2 items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
-                            color="#000000" fill="none">
-                            <path d="M8 13.5H16M8 8.5H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                        <div class="h-auto text-[12px]">460</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <% }) %>
 
     </div>
     <!-- for the bottom nav bar -->
@@ -434,7 +214,8 @@
         </div>
 
         <!-- for the upload icon -->
-        <div class="absolute h-20 w-20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white p-1">
+        <div id="uploadPostIcon"
+            class="absolute cursor-pointer h-20 w-20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white p-1">
             <div
                 class="h-full w-full bg-gradient-to-b rounded-full from-[#f4ff26] to-[#bee84a] flex items-center justify-center flex-shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
@@ -446,10 +227,10 @@
             </div>
         </div>
 
-        <!-- for the profile & reel icon -->
+        <!-- for the profile & anyonomous icon -->
         <div class="flex flex-row items-center justify-around w-2/3">
-            <!-- for the reels icon -->
-            <div class="h-auto w-auto">
+            <!-- for the anyonomous icon -->
+            <div id="anyonomousIcon" class="h-auto w-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
                     class="injected-svg" data-src="https://cdn.hugeicons.com/icons/anonymous-stroke-standard.svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
@@ -486,12 +267,18 @@
         </div>
     </div>
     <!-- for the search bar for the users -->
-    <div id="searchpage" class="absolute hidden h-full w-full z-[100] bg-white p-2 items-center justify-center flex-col">
+    <div id="searchpage"
+        class="absolute hidden h-full w-full z-[100] bg-white p-2 items-center justify-center flex-col">
         <!-- for the search bar -->
-         <div class="w-full h-14 font-bold text-4xl font-northwellfont flex items-center justify-between">
+        <div class="w-full h-14 font-bold text-4xl font-northwellfont flex items-center justify-between">
             <div>Search</div>
-            <div id="closesearchbar" class="mr-5 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#000000" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></div>
-         </div>
+            <div id="closesearchbar" class="mr-5 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+                    width="24"
+                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path fill="#000000"
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                </svg></div>
+        </div>
         <div class="group p-1">
             <svg class="iconsearchbar" aria-hidden="true" viewBox="0 0 24 24">
                 <g>
@@ -513,6 +300,33 @@
             </div> -->
 
         </div>
+    </div>
+
+    <!-- for the post upload  -->
+    <div id="postupload" class="fixed h-full w-full bg-black/20 z-[90] max-w-3xl hidden items-center justify-center">
+        <form class="h-auto w-[90%] p-3 bg-white opacity-100 z-[100] rounded-3xl space-y-2" action="/file/upload/post"
+            method="post" enctype="multipart/form-data">
+            <div class="font-semibold text-xl mb-2 w-full flex items-center justify-between">
+                <div>Upload post</div>
+                <div id="postdivClose" class="p-1 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        class="injected-svg" data-src="https://cdn.hugeicons.com/icons/cancel-01-solid-standard.svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                        <path
+                            d="M4.11654 18.116C3.62839 18.6041 3.62839 19.3956 4.11654 19.8838C4.6047 20.3719 5.39616 20.3719 5.88431 19.8838L19.8843 5.88376C20.3725 5.39561 20.3725 4.60415 19.8843 4.11599C19.3962 3.62784 18.6047 3.62784 18.1165 4.11599L4.11654 18.116Z"
+                            fill="#000000"></path>
+                        <path
+                            d="M5.88434 4.11599C5.39619 3.62784 4.60473 3.62784 4.11657 4.11599C3.62842 4.60415 3.62842 5.39561 4.11657 5.88376L18.1166 19.8838C18.6047 20.3719 19.3962 20.3719 19.8843 19.8838C20.3725 19.3956 20.3725 18.6041 19.8843 18.116L5.88434 4.11599Z"
+                            fill="#000000"></path>
+                    </svg>
+                </div>
+            </div>
+            <input class="w-full h-auto border border-black rounded-xl p-2" type="file" name="file" id="post"
+                accept="image/png,image/jpeg,image/jpg">
+            <input class="w-full h-auto border border-black rounded-xl p-2" type="text" name="postcaption"
+                id="postcaption" placeholder="Add Caption">
+            <button class="w-full h-auto bg-[#bee84a] rounded-xl p-2" type="submit">Save & Continue</button>
+        </form>
     </div>
 
 </body>
