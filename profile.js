@@ -70,6 +70,9 @@ router.post("/searchuser", async (req, res) => {
 router.get("/userprofile/:id", async (req, res) => {
   const userid = req.params.id;
   const finduser=await user.findById(userid)
+  if(finduser.username==req.session.username){
+    return res.redirect("http://localhost:3000/profile")
+  }
   const [followingusers, followersuser, totalpost] =
       await Promise.all([
         follow.find({ userID: finduser.username }),

@@ -4,7 +4,7 @@ const chat=require("./models/chat.js")
 
 router.get("/", async (req, res) => {
     if(req.session.username && req.session.password){
-        const chatarray=await chat.find().sort({timestamp:-1})
+        const chatarray=await chat.find()
         return res.render("anyonomousConfession",{
             chatarray,
     });

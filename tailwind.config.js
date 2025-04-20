@@ -5,7 +5,9 @@ module.exports = {
     extend: {
       fontFamily: {
         custom: ['MyCustomFont', 'sans-serif'],
-        northwellfont:['northwellfont','sans-serif']
+        northwellfont:['northwellfont','sans-serif'],
+        poppins:['poppins','sans-serif'],
+        poppinsBold:['poppins-BOLD','sans-serif']
       },
     },
   },

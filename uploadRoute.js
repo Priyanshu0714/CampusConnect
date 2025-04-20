@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const User = require("./models/user");
 const post = require("./models/posts.js");
+const Story=require("./models/stories.js")
 
 const upload = multer({ dest: "uploads/" });
 const cloudinary = require("cloudinary").v2;
@@ -18,9 +19,9 @@ router.post("/upload/post", upload.single("file"), async (req, res) => {
   try {
     const file = req.file;
     const path = file.path;
-    console.log(req.params)
-    console.log(req.body.postcaption)
-    console.log(req.file)
+    // console.log(req.params)
+    // console.log(req.body.postcaption)
+    // console.log(req.file)
     // Configuration
     cloudinary.config({
       cloud_name: "dbjfhrfly",
@@ -87,11 +88,60 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       { profileimg: uploadResult.secure_url }
     );
     await fs.unlinkSync(file.path);
-    res.render("http://localhost:3000/");
+    res.redirect("http://localhost:3000/");
 
   } catch (error) {
     return res.status(400);
   }
 });
 
+
+// for the stories upload post request
+router.post("/upload/stories", upload.single("file"), async (req, res) => {
+  let CurrentTime=Date.now();
+  if (!req.session.username) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  // for the cloudinary image upload
+  try {
+    const file = req.file;
+    const path = file.path;
+    cloudinary.config({
+      cloud_name: "dbjfhrfly",
+      api_key: "595925724355149",
+      api_secret: "qwfGU3SeKp3HLoi-uwiTyszNx1Y",
+    });
+
+    // Upload an image
+    const uploadResult = await cloudinary.uploader
+      .upload(`${path}`, {
+        public_id: CurrentTime,
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      // here comes the stories upload part
+      if(await Story.findOne({OwnerID: req.session.username})){
+        const user=await Story.findOne({OwnerID: req.session.username})
+        await Story.findOneAndDelete(
+          {OwnerID: req.session.username},
+        )
+      }
+      const userimg=await User.findOne({
+        username:req.session.username
+      })
+      await new Story({ 
+        OwnerID: req.session.username,
+        StoryLink: uploadResult.secure_url,
+        Ownerimg:userimg.profileimg
+      }).save();
+
+    await fs.unlinkSync(file.path);
+    res.redirect("http://localhost:3000/");
+
+  } catch (error) {
+    return res.status(400);
+  }
+});
 module.exports = router;

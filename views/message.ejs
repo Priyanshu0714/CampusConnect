@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+    <!-- for css file -->
+    <link rel="stylesheet" href="/src/output.css">
+</head>
+
+<body class="h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl">
+    <!-- for the logo and message and notification part -->
+    <div class="h-20 fixed top-0 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl">
+        <!-- for the logo part -->
+        <div class="flex flex-row gap-1 items-center justify-center h-full">
+            <img class="object-contain" src="/images/newlogo.svg" alt="">
+            <div class="text-4xl font-custom">Campus Connect</div>
+        </div>
+
+        <div id="closeMessage" class="p-1 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/cancel-01-solid-standard.svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                <path d="M4.11654 18.116C3.62839 18.6041 3.62839 19.3956 4.11654 19.8838C4.6047 20.3719 5.39616 20.3719 5.88431 19.8838L19.8843 5.88376C20.3725 5.39561 20.3725 4.60415 19.8843 4.11599C19.3962 3.62784 18.6047 3.62784 18.1165 4.11599L4.11654 18.116Z" fill="#000000"></path>
+                <path d="M5.88434 4.11599C5.39619 3.62784 4.60473 3.62784 4.11657 4.11599C3.62842 4.60415 3.62842 5.39561 4.11657 5.88376L18.1166 19.8838C18.6047 20.3719 19.3962 20.3719 19.8843 19.8838C20.3725 19.3956 20.3725 18.6041 19.8843 18.116L5.88434 4.11599Z" fill="#000000"></path>
+                </svg>
+        </div>
+
+    </div>
+
+    <!-- for the messages part -->
+    <div class="h-[80%] w-full px-2">
+
+        <div
+            class="w-full h-20 mt-20 bg-white flex flex-row font-poppinsBold font-bold text-2xl items-center justify-center gap-2 border-y border-gray-200">
+            <svg aria-label="Messenger" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img"
+                viewBox="0 0 24 24" width="24">
+                <title>Messenger</title>
+                <path
+                    d="M12.003 2.001a9.705 9.705 0 1 1 0 19.4 10.876 10.876 0 0 1-2.895-.384.798.798 0 0 0-.533.04l-1.984.876a.801.801 0 0 1-1.123-.708l-.054-1.78a.806.806 0 0 0-.27-.569 9.49 9.49 0 0 1-3.14-7.175 9.65 9.65 0 0 1 10-9.7Z"
+                    fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.739"></path>
+                <path
+                    d="M17.79 10.132a.659.659 0 0 0-.962-.873l-2.556 2.05a.63.63 0 0 1-.758.002L11.06 9.47a1.576 1.576 0 0 0-2.277.42l-2.567 3.98a.659.659 0 0 0 .961.875l2.556-2.049a.63.63 0 0 1 .759-.002l2.452 1.84a1.576 1.576 0 0 0 2.278-.42Z"
+                    fill-rule="evenodd"></path>
+            </svg>Messages
+        </div>
+
+        <!-- for showing the chats profiles -->
+
+        <div class="h-full w-full flex items-center justify-start flex-row flex-shrink-0">
+            <div id="chatprofile"
+                class="h-full w-full flex items-center justify-start flex-col flex-shrink-0 scrollbar-hide overflow-scroll pb-20">
+                <% userDetails.forEach(element => { %>
+                    <div id=<%=element.id%> class="chatprofileuser w-full h-20 bg-white flex flex-row hover:bg-gray-100 cursor-pointer">
+                        <div class="h-full w-auto p-2 flex items-center justify-center">
+                            <img class="h-14 w-14 rounded-full bg-white object-cover" src="<%=element.profileimg %>" alt="">
+                        </div>
+                        <div class="chatname h-full flex-1 flex items-center justify-start px-4 font-poppins"><%=element.name %></div>
+                    </div>
+                <% }) %>
+
+                <!-- <div class="w-full h-20 bg-white flex flex-row hover:bg-gray-100 cursor-pointer">
+                    <div class="h-full w-auto p-2 flex items-center justify-center">
+                        <img class="h-14 w-14 rounded-full bg-white" src="/images/bhupesh.jpeg" alt="">
+                    </div>
+                    <div class="chatname h-full flex-1 flex items-center justify-start px-4 font-poppins">Priyanshu
+                        Choudhary</div>
+                </div> -->
+
+            </div>
+            <!-- for showing the messages box -->
+
+            <div id="chatbox"
+                class="hidden p-2 h-full w-[70%] overflow-scroll pb-20 scrollbar-hide flex-shrink-0 font-poppins flex-col ">
+
+                <div id="chat" class="flex-1 overflow-scroll scrollbar-hide space-y-3">
+                    <!-- <div class="w-1/3 h-auto p-2 border border-gray-300 float-right clear-both rounded-2xl">Hi</div>
+                    <div class="w-1/3 h-auto p-2 border border-gray-300 float-left clear-both rounded-2xl">Hello</div> -->
+                </div>
+
+                <!-- for the send button -->
+                 <div class="bottom-20 h-14 w-[90%] px-1 rounded-full bg-black flex items-center justify-center flex-row">
+                    <input id="message" class="flex-1 h-full p-2 rounded-full border-none outline-none text-white bg-black" type="text" placeholder="Message...">
+                    <div id="sendmessage" class="w-10 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/sent-solid-sharp.svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#ffffff">
+                            <path d="M22.2119 2.73615C22.3006 2.46843 22.2317 2.17356 22.0334 1.97295C21.8352 1.77234 21.5412 1.69992 21.2724 1.78551L2.27241 7.83651C1.97497 7.93124 1.7673 8.20031 1.75103 8.51205C1.73475 8.82379 1.91328 9.11302 2.19925 9.2382L10.1996 12.7403L14.4705 8.46977L15.5311 9.53046L11.2403 13.821L14.5075 21.7845C14.6266 22.0747 14.9138 22.2602 15.2273 22.2493C15.5409 22.2385 15.8146 22.0336 15.9133 21.7358L22.2119 2.73615Z" fill="#ffffff"></path>
+                            </svg>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- for the bottom nav bar -->
+    <div class="h-16 bg-white w-full fixed bottom-0 z-50 flex items-center justify-between flex-row gap-5 rounded-t-sm max-w-3xl">
+        <!-- for the all explore menu -->
+        <div class="flex flex-row items-center justify-around w-2/3">
+            <div class="h-auto w-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" color="#000000"
+                    fill="none">
+                    <path
+                        d="M2 18C2 16.4596 2 15.6893 2.34673 15.1235C2.54074 14.8069 2.80693 14.5407 3.12353 14.3467C3.68934 14 4.45956 14 6 14C7.54044 14 8.31066 14 8.87647 14.3467C9.19307 14.5407 9.45926 14.8069 9.65327 15.1235C10 15.6893 10 16.4596 10 18C10 19.5404 10 20.3107 9.65327 20.8765C9.45926 21.1931 9.19307 21.4593 8.87647 21.6533C8.31066 22 7.54044 22 6 22C4.45956 22 3.68934 22 3.12353 21.6533C2.80693 21.4593 2.54074 21.1931 2.34673 20.8765C2 20.3107 2 19.5404 2 18Z"
+                        stroke="currentColor" stroke-width="1.5" />
+                    <path
+                        d="M14 18C14 16.4596 14 15.6893 14.3467 15.1235C14.5407 14.8069 14.8069 14.5407 15.1235 14.3467C15.6893 14 16.4596 14 18 14C19.5404 14 20.3107 14 20.8765 14.3467C21.1931 14.5407 21.4593 14.8069 21.6533 15.1235C22 15.6893 22 16.4596 22 18C22 19.5404 22 20.3107 21.6533 20.8765C21.4593 21.1931 21.1931 21.4593 20.8765 21.6533C20.3107 22 19.5404 22 18 22C16.4596 22 15.6893 22 15.1235 21.6533C14.8069 21.4593 14.5407 21.1931 14.3467 20.8765C14 20.3107 14 19.5404 14 18Z"
+                        stroke="currentColor" stroke-width="1.5" />
+                    <path
+                        d="M2 6C2 4.45956 2 3.68934 2.34673 3.12353C2.54074 2.80693 2.80693 2.54074 3.12353 2.34673C3.68934 2 4.45956 2 6 2C7.54044 2 8.31066 2 8.87647 2.34673C9.19307 2.54074 9.45926 2.80693 9.65327 3.12353C10 3.68934 10 4.45956 10 6C10 7.54044 10 8.31066 9.65327 8.87647C9.45926 9.19307 9.19307 9.45926 8.87647 9.65327C8.31066 10 7.54044 10 6 10C4.45956 10 3.68934 10 3.12353 9.65327C2.80693 9.45926 2.54074 9.19307 2.34673 8.87647C2 8.31066 2 7.54044 2 6Z"
+                        stroke="currentColor" stroke-width="1.5" />
+                    <path
+                        d="M14 6C14 4.45956 14 3.68934 14.3467 3.12353C14.5407 2.80693 14.8069 2.54074 15.1235 2.34673C15.6893 2 16.4596 2 18 2C19.5404 2 20.3107 2 20.8765 2.34673C21.1931 2.54074 21.4593 2.80693 21.6533 3.12353C22 3.68934 22 4.45956 22 6C22 7.54044 22 8.31066 21.6533 8.87647C21.4593 9.19307 21.1931 9.45926 20.8765 9.65327C20.3107 10 19.5404 10 18 10C16.4596 10 15.6893 10 15.1235 9.65327C14.8069 9.45926 14.5407 9.19307 14.3467 8.87647C14 8.31066 14 7.54044 14 6Z"
+                        stroke="currentColor" stroke-width="1.5" />
+                </svg>
+            </div>
+            <div id="home" class="h-auto w-auto cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                    class="injected-svg" data-src="https://cdn.hugeicons.com/icons/home-11-stroke-standard.svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                    <path
+                        d="M9.00239 16.999L9.00048 21.0005C9.00021 21.5526 8.55258 22 8.00048 22L5 22C3.89543 22 3 21.1046 3 20V10.065C3 9.45242 3.28074 8.87362 3.76182 8.49437L10.7618 2.97609C11.488 2.40361 12.512 2.40361 13.2382 2.97609L20.2382 8.49437C20.7193 8.87362 21 9.45243 21 10.065V20C21 21.1046 20.1046 22 19 22L16 22C15.4477 22 15 21.5523 15 21V17C15 15.8954 14.1046 15 13 15H11.0024C9.8982 15 9.00292 15.8948 9.00239 16.999Z"
+                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </div>
+        </div>
+
+
+        <!-- for the profile & anyonomous icon -->
+        <div class="flex flex-row items-center justify-around w-2/3">
+            <!-- for the anyonomous icon -->
+            <div id="anyonomousIcon" class="h-auto w-auto cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                    class="injected-svg" data-src="https://cdn.hugeicons.com/icons/anonymous-stroke-standard.svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                    <path
+                        d="M7 15.0001C5.34315 15.0001 4 16.3433 4 18.0001C4 19.657 5.34315 21.0001 7 21.0001C8.65685 21.0001 10 19.657 10 18.0001C10 16.3433 8.65685 15.0001 7 15.0001Z"
+                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                        d="M17 15.0001C15.3431 15.0001 14 16.3433 14 18.0001C14 19.657 15.3431 21.0001 17 21.0001C18.6569 21.0001 20 19.657 20 18.0001C20 16.3433 18.6569 15.0001 17 15.0001Z"
+                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M14 17.0001H10" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path
+                        d="M22 13.0001C19.5434 11.7726 15.9734 11.0001 12 11.0001C8.02658 11.0001 4.45659 11.7726 2 13.0001"
+                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                        d="M5 12.0001L6.01724 4.69603C6.22846 3.17934 8.05541 2.47569 9.26537 3.445C11 5.00012 13 5.00012 14.7346 3.445C15.9446 2.47569 17.7715 3.17934 17.9828 4.69603L19 12.0001"
+                        stroke="#000000" stroke-width="1.5" stroke-linejoin="round"></path>
+                </svg>
+            </div>
+
+            <!-- for the profile icon -->
+            <div id="profile_section" class="h-auto w-auto cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                    class="injected-svg" data-src="https://cdn.hugeicons.com/icons/user-circle-stroke-standard.svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#000000">
+                    <circle cx="12" cy="12" r="10" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"></circle>
+                    <path
+                        d="M7.5 17C9.8317 14.5578 14.1432 14.4428 16.5 17M14.4951 9.5C14.4951 10.8807 13.3742 12 11.9915 12C10.6089 12 9.48797 10.8807 9.48797 9.5C9.48797 8.11929 10.6089 7 11.9915 7C13.3742 7 14.4951 8.11929 14.4951 9.5Z"
+                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</body>
+<script src="/js/message.js"></script>
+
+</html>
