@@ -2,10 +2,10 @@
 
 **Campus Connect** is a platform designed to foster communication and collaboration among students, faculty, and campus organizations. It streamlines event updates, academic resources, and peer networking, creating a connected and engaging campus experience.
 
-![Campus Connect Login]('/images/github/Screenshot 2025-04-20 at 4.42.15 PM.png')
-![Home Page]('/images/github/Screenshot 2025-04-20 at 4.42.44 PM.png')
-![Messaging Page]('/images/github/Screenshot 2025-04-20 at 4.42.56 PM.png')
-![User Profile Page]('/images/github/Screenshot 2025-04-20 at 4.43.19 PM.png')
+![Campus Connect Login](images/github/Screenshot%202025-04-20%20at%204.42.15%20PM.png)
+![Home Page](images/github/Screenshot%202025-04-20%20at%204.42.44%20PM.png)
+![Messaging Page](images/github/Screenshot%202025-04-20%20at%204.42.56%20PM.png)
+![User Profile Page](images/github/Screenshot%202025-04-20%20at%204.43.19%20PM.png)
 
 
 ---
