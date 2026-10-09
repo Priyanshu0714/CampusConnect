@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= finduser.name %> (@<%= finduser.username %>) — Campus Connect</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <style>
+    .post-grid-item:hover .overlay { opacity: 1; }
+  </style>
+</head>
+
+<body class="min-h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 pb-24">
+
+  <!-- ── COVER & HEADER ────────────────────────────────────────────────────── -->
+  <div class="w-full relative h-48 sm:h-56 bg-gray-200">
+    <img src="<%= finduser.coverimg || '/images/coverimg.jpg' %>" alt="Cover" class="w-full h-full object-cover">
+    
+    <!-- Top action bar -->
+    <div class="absolute top-0 left-0 right-0 p-3 flex items-center justify-between z-10 bg-gradient-to-b from-black/60 to-transparent">
+      <a href="/" class="p-2 rounded-full bg-white/80 hover:bg-white backdrop-blur text-gray-900 transition-colors shadow" title="Back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── PROFILE DETAILS SECTION ───────────────────────────────────────────── -->
+  <div class="w-full bg-white px-4 pt-2 pb-5 border-b border-gray-200">
+    <div class="flex items-end justify-between -mt-16 mb-3">
+      <!-- Profile Picture -->
+      <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full ring-4 ring-white bg-white overflow-hidden shadow-md">
+        <img class="w-full h-full object-cover" src="<%= finduser.profileimg %>" alt="<%= finduser.name %>">
+      </div>
+
+      <!-- Actions: Message & Follow -->
+      <div class="flex items-center gap-2">
+        <a href="/message" class="p-2.5 rounded-full border border-gray-300 hover:border-black hover:bg-gray-50 transition-all text-gray-800 shadow-sm" title="Send Message">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </a>
+
+        <button id="followButton" data-userid="<%= userid %>" 
+          class="px-6 py-2 rounded-full font-bold text-xs shadow-sm transition-all flex items-center gap-1.5
+          <%= followstatus ? 'bg-black text-white' : 'bg-gradient-to-r from-[#f4ff26] to-[#bee84a] text-gray-900 hover:opacity-95' %>">
+          <span><%= followstatus ? 'Following ✓' : 'Follow' %></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Name & Handle -->
+    <div class="flex flex-col">
+      <h1 class="text-xl font-extrabold text-gray-900 leading-tight"><%= finduser.name %></h1>
+      <span class="text-xs text-gray-400">@<%= finduser.username %></span>
+    </div>
+
+    <!-- Campus Tags -->
+    <% if (finduser.college || finduser.branch || finduser.year) { %>
+      <div class="flex flex-wrap items-center gap-1.5 mt-2.5">
+        <% if (finduser.college) { %>
+          <span class="text-[11px] font-semibold bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-full">🏛️ <%= finduser.college %></span>
+        <% } %>
+        <% if (finduser.branch) { %>
+          <span class="text-[11px] font-semibold bg-[#f4ff26]/50 text-gray-800 px-2.5 py-0.5 rounded-full">📚 <%= finduser.branch %></span>
+        <% } %>
+        <% if (finduser.year) { %>
+          <span class="text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full">🎓 Year <%= finduser.year %></span>
+        <% } %>
+      </div>
+    <% } %>
+
+    <!-- Bio -->
+    <% if (finduser.bio) { %>
+      <p class="text-sm text-gray-700 mt-2.5 leading-relaxed whitespace-pre-line"><%= finduser.bio %></p>
+    <% } %>
+
+    <!-- Social Links -->
+    <% if (finduser.linkedin || finduser.github) { %>
+      <div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-100 text-xs">
+        <% if (finduser.linkedin) { %>
+          <a href="<%= finduser.linkedin.startsWith('http') ? finduser.linkedin : 'https://' + finduser.linkedin %>" target="_blank" rel="noopener noreferrer" 
+            class="flex items-center gap-1 font-semibold text-blue-600 hover:underline">
+            <span>💼</span> LinkedIn
+          </a>
+        <% } %>
+        <% if (finduser.github) { %>
+          <a href="<%= finduser.github.startsWith('http') ? finduser.github : 'https://github.com/' + finduser.github %>" target="_blank" rel="noopener noreferrer" 
+            class="flex items-center gap-1 font-semibold text-gray-800 hover:underline">
+            <span>🐙</span> GitHub
+          </a>
+        <% } %>
+      </div>
+    <% } %>
+
+    <!-- Metrics Row -->
+    <div class="grid grid-cols-4 gap-2 mt-4 pt-3 border-t border-gray-100 text-center">
+      <div class="flex flex-col">
+        <span class="font-extrabold text-base text-gray-900"><%= post %></span>
+        <span class="text-[11px] text-gray-500">Posts</span>
+      </div>
+      <div class="flex flex-col">
+        <span id="followersCount" class="font-extrabold text-base text-gray-900"><%= followers %></span>
+        <span class="text-[11px] text-gray-500">Followers</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-extrabold text-base text-gray-900"><%= followings %></span>
+        <span class="text-[11px] text-gray-500">Following</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-extrabold text-base text-gray-900"><%= likes %></span>
+        <span class="text-[11px] text-gray-500">Likes</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── POSTS GRID ────────────────────────────────────────────────────────── -->
+  <div class="w-full px-2 mt-3">
+    <div class="flex items-center gap-2 px-2 pb-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      Posts
+    </div>
+
+    <% if (totalpost.length === 0) { %>
+      <div class="text-center py-12 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div class="text-3xl mb-2">📸</div>
+        <h3 class="font-bold text-sm text-gray-800">No posts shared yet</h3>
+        <p class="text-xs text-gray-500 mt-1">Check back later to see photos from <%= finduser.name %>.</p>
+      </div>
+    <% } else { %>
+      <div class="grid grid-cols-3 gap-1.5 rounded-2xl overflow-hidden bg-white p-1 border border-gray-200">
+        <% totalpost.forEach(element => { %>
+          <a href="/post/<%= element._id %>" class="post-grid-item relative aspect-square bg-gray-100 overflow-hidden group rounded-lg block cursor-pointer" title="View Post">
+            <img class="w-full h-full object-cover" src="<%= element.postURL %>" alt="Post">
+            <div class="overlay absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col items-center justify-center text-center text-white text-[11px] font-medium gap-1">
+              <div class="flex items-center gap-2.5 font-bold text-xs">
+                <span>❤️ <%= element.likeCount !== undefined ? element.likeCount : 0 %></span>
+                <span>💬 <%= element.Comment || 0 %></span>
+              </div>
+              <% if (element.caption) { %>
+                <span class="line-clamp-2 text-[10px] text-gray-200"><%= element.caption %></span>
+              <% } %>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- ── BOTTOM NAVIGATION ──────────────────────────────────────────────────── -->
+  <nav class="h-16 bg-white w-full fixed bottom-0 z-50 flex items-center justify-around rounded-t-2xl max-w-3xl border-t border-gray-200 px-3">
+    <a href="/" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <a href="/profile/explore" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Explore">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+    </a>
+    <a href="/events" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Events">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+    </a>
+    <a href="/notifications" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+    </a>
+    <a href="/profile" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </a>
+  </nav>
+
+  <script src="/js/searchuserprofile.js"></script>
+</body>
+</html>

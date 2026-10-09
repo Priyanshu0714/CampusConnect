@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Campus Connect</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen w-full flex container m-auto flex-col relative max-w-3xl items-center justify-center p-4 py-8">
+
+  <div class="flex-1 flex items-center justify-center flex-col w-full my-auto">
+    <form class="form_container max-w-md w-full" method="post" action="/authentication/signup">
+      <div class="logo_container flex flex-row gap-1 items-center justify-center w-full h-full">
+        <img class="object-contain h-12" src="/images/newlogo.svg" alt="Campus Connect">
+      </div>
+      <div class="title_container">
+        <p class="title">Join Campus Connect</p>
+        <span class="subtitle">Create an account to connect with peers, events, and your college community.</span>
+      </div>
+
+      <!-- Error notification banner -->
+      <div id="ifincorrect" class="hidden w-full p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-semibold text-center">
+        Error occurred
+      </div>
+
+      <!-- Full Name -->
+      <div class="input_container w-full">
+        <label class="input_label" for="name">Full Name *</label>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#141B34" fill="none">
+          <path d="M6.57757 15.4816C5.1628 16.324 1.45336 18.0441 3.71266 20.1966C4.81631 21.248 6.04549 22 7.59087 22H16.4091C17.9545 22 19.1837 21.248 20.2873 20.1966C22.5466 18.0441 18.8372 16.324 17.4224 15.4816C14.1048 13.5061 9.89519 13.5061 6.57757 15.4816Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M16.5 6.5C16.5 8.98528 14.4853 11 12 11C9.51472 11 7.5 8.98528 7.5 6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5Z" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+        <input placeholder="Your full name" name="name" type="text" class="input_field" id="name" required autocomplete="name">
+      </div>
+
+      <!-- Username -->
+      <div class="input_container w-full">
+        <label class="input_label" for="username">Username *</label>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M8.49994 16.5C9.19857 15.2923 10.5044 14.4797 11.9999 14.4797C13.4955 14.4797 14.8013 15.2923 15.4999 16.5M14 10C14 11.1046 13.1045 12 12 12C10.8954 12 9.99997 11.1046 9.99997 10C9.99997 8.89543 10.8954 8 12 8C13.1045 8 14 8.89543 14 10Z" stroke="#141B34" stroke-width="1.5" stroke-linecap="round"></path>
+          <path d="M22 13.9669V10.0332C19.1433 10.0332 17.2857 6.93041 18.732 4.46691L15.2679 2.5001C13.8038 4.99405 10.1978 4.99395 8.73363 2.5L5.26953 4.46681C6.71586 6.93035 4.85673 10.0332 2 10.0332V13.9669C4.85668 13.9669 6.71425 17.0697 5.26795 19.5332L8.73205 21.5C10.1969 19.0048 13.8046 19.0047 15.2695 21.4999L18.7336 19.5331C17.2874 17.0696 19.1434 13.9669 22 13.9669Z" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <input placeholder="Unique username" name="username" type="text" class="input_field" id="username" required autocomplete="username">
+      </div>
+
+      <!-- Email -->
+      <div class="input_container w-full">
+        <label class="input_label" for="email_field">Campus / Personal Email *</label>
+        <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" class="icon">
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#141B34" d="M7 8.5L9.94202 10.2394C11.6572 11.2535 12.3428 11.2535 14.058 10.2394L17 8.5"></path>
+          <path stroke-linejoin="round" stroke-width="1.5" stroke="#141B34" d="M2.01577 13.4756C2.08114 16.5412 2.11383 18.0739 3.24496 19.2094C4.37608 20.3448 5.95033 20.3843 9.09883 20.4634C11.0393 20.5122 12.9607 20.5122 14.9012 20.4634C18.0497 20.3843 19.6239 20.3448 20.7551 19.2094C21.8862 18.0739 21.9189 16.5412 21.9842 13.4756C22.0053 12.4899 22.0053 11.5101 21.9842 10.5244C21.9189 7.45886 21.8862 5.92609 20.7551 4.79066C19.6239 3.65523 18.0497 3.61568 14.9012 3.53657C12.9607 3.48781 11.0393 3.48781 9.09882 3.53656C5.95033 3.61566 4.37608 3.65521 3.24495 4.79065C2.11382 5.92608 2.08114 7.45885 2.01576 10.5244C1.99474 11.5101 1.99475 12.4899 2.01577 13.4756Z"></path>
+        </svg>
+        <input placeholder="you@college.edu" name="email" type="email" class="input_field" id="email_field" required autocomplete="email">
+      </div>
+
+      <!-- Password -->
+      <div class="input_container w-full relative">
+        <label class="input_label" for="password_field">Password * (min 6 characters)</label>
+        <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" class="icon">
+          <path stroke-linecap="round" stroke-width="1.5" stroke="#141B34" d="M18 11.0041C17.4166 9.91704 16.273 9.15775 14.9519 9.0993C13.477 9.03404 11.9788 9 10.329 9C8.67911 9 7.18091 9.03404 5.70604 9.0993C3.95328 9.17685 2.51295 10.4881 2.27882 12.1618C2.12602 13.2541 2 14.3734 2 15.5134C2 16.6534 2.12602 17.7727 2.27882 18.865C2.51295 20.5387 3.95328 21.8499 5.70604 21.9275C6.42013 21.9591 7.26041 21.9834 8 22"></path>
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#141B34" d="M6 9V6.5C6 4.01472 8.01472 2 10.5 2C12.9853 2 15 4.01472 15 6.5V9"></path>
+        </svg>
+        <input placeholder="Choose a password" name="password" type="password" class="input_field pr-10" id="password_field" minlength="6" required autocomplete="new-password">
+        
+        <button type="button" id="togglePassword" class="absolute right-3 bottom-2 text-gray-400 hover:text-gray-700 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Campus Details (Optional) -->
+      <div class="grid grid-cols-3 gap-2 w-full pt-1">
+        <div>
+          <label class="text-[11px] font-semibold text-gray-500 mb-1 block">College</label>
+          <input placeholder="e.g. IITD" type="text" id="college" class="w-full h-9 px-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-[#bee84a]">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-gray-500 mb-1 block">Branch</label>
+          <input placeholder="e.g. CSE" type="text" id="branch" class="w-full h-9 px-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-[#bee84a]">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-gray-500 mb-1 block">Year</label>
+          <input placeholder="e.g. 2nd" type="text" id="year" class="w-full h-9 px-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-[#bee84a]">
+        </div>
+      </div>
+
+      <button id="submitBtn" title="Create Account" type="submit" class="sign-in_btn font-bold text-sm mt-2">
+        <span id="btnText">Sign Up</span>
+      </button>
+
+      <div class="separator">
+        <hr class="line">
+        <span>Or</span>
+        <hr class="line">
+      </div>
+
+      <button id="signin" title="Already have an account" type="button" class="sign-in_ggl font-bold text-sm">
+        Sign In Instead
+      </button>
+    </form>
+  </div>
+
+  <script src="/js/authenticationFrontendSignUp.js"></script>
+</body>
+</html>

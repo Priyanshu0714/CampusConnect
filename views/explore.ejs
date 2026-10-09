@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore & Discover — Campus Connect</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <style>
+    .user-card { transition: all 0.2s ease; }
+    .user-card:hover { transform: translateY(-2px); }
+    .post-grid-item:hover .overlay { opacity: 1; }
+  </style>
+</head>
+
+<body class="min-h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 pb-24">
+
+  <!-- ── TOP BAR ───────────────────────────────────────────────────────────── -->
+  <header class="h-16 fixed top-0 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-4 border-b border-gray-200">
+    <div class="flex items-center gap-3">
+      <a href="/" class="p-2 rounded-full hover:bg-gray-100 transition-colors" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+      <h1 class="text-xl font-bold text-gray-900">Explore Campus</h1>
+    </div>
+  </header>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────────────────────── -->
+  <main class="w-full mt-20 px-3 flex flex-col gap-6 max-w-2xl">
+
+    <!-- Search Input -->
+    <div class="w-full flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-2xl shadow-sm focus-within:border-[#bee84a] focus-within:ring-2 focus-within:ring-[#bee84a]/30 transition-all">
+      <svg class="text-gray-400" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z" fill="currentColor"></path></svg>
+      <input id="exploreSearch" placeholder="Search classmates by name, username..." type="search" class="flex-1 bg-transparent outline-none text-sm text-gray-800">
+    </div>
+
+    <!-- Search Results Dropdown / Container (Dynamic) -->
+    <div id="searchResults" class="w-full bg-white rounded-2xl border border-gray-200 shadow-md p-2 hidden flex-col gap-1 -mt-4"></div>
+
+    <!-- ── SUGGESTED STUDENTS ──────────────────────────────────────────────── -->
+    <section class="flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-gray-900 flex items-center gap-1.5">
+          <span>👥</span> Suggested Classmates
+        </h2>
+        <span class="text-xs text-gray-400">Discover peers</span>
+      </div>
+
+      <% if (suggested.length === 0) { %>
+        <div class="text-center py-6 bg-white rounded-2xl border border-gray-200 text-xs text-gray-500">
+          You're already following everyone or no new classmates found.
+        </div>
+      <% } else { %>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <% suggested.forEach(person => { %>
+            <div class="user-card bg-white p-3.5 rounded-2xl border border-gray-200 flex flex-col items-center text-center shadow-sm">
+              <a href="/profile/userprofile/<%= person._id %>" class="w-16 h-16 rounded-full overflow-hidden ring-2 ring-[#bee84a] mb-2">
+                <img src="<%= person.profileimg %>" alt="<%= person.name %>" class="w-full h-full object-cover">
+              </a>
+              <a href="/profile/userprofile/<%= person._id %>" class="font-bold text-xs text-gray-900 truncate w-full hover:underline">
+                <%= person.name %>
+              </a>
+              <span class="text-[11px] text-gray-400 truncate w-full">@<%= person.username %></span>
+              
+              <% if (person.branch || person.college) { %>
+                <span class="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full mt-1.5 truncate max-w-full">
+                  <%= person.branch || person.college %>
+                </span>
+              <% } %>
+
+              <button onclick="followUser('<%= person._id %>', this)" class="mt-3 w-full py-1.5 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-full text-[11px] font-bold text-gray-900 hover:opacity-90 transition-all shadow-sm">
+                Follow
+              </button>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
+
+    <!-- ── TRENDING POSTS ──────────────────────────────────────────────────── -->
+    <section class="flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-gray-900 flex items-center gap-1.5">
+          <span>🔥</span> Trending on Campus
+        </h2>
+        <span class="text-xs text-gray-400">Most liked this week</span>
+      </div>
+
+      <% if (trending.length === 0) { %>
+        <div class="text-center py-8 bg-white rounded-2xl border border-gray-200 text-xs text-gray-500">
+          No trending posts right now. Start posting on the home feed!
+        </div>
+      <% } else { %>
+        <div class="grid grid-cols-3 gap-1.5 rounded-2xl overflow-hidden border border-gray-200 bg-white p-1">
+          <% trending.forEach(item => { %>
+            <a href="/post/<%= item.post._id %>" class="post-grid-item relative aspect-square bg-gray-100 overflow-hidden cursor-pointer group rounded-lg block" title="View Post">
+              <img src="<%= item.post.postURL %>" alt="Trending Post" class="w-full h-full object-cover">
+              <div class="overlay absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1">
+                <span>❤️ <%= item.likeCount %></span>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
+
+  </main>
+
+  <!-- ── BOTTOM NAVIGATION ──────────────────────────────────────────────────── -->
+  <nav class="h-16 bg-white w-full fixed bottom-0 z-50 flex items-center justify-around rounded-t-2xl max-w-3xl border-t border-gray-200 px-3">
+    <a href="/" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <a href="/profile/explore" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl bg-[#f4ff26]" title="Explore">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+    </a>
+    <a href="/events" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Events">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+    </a>
+    <a href="/notifications" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+    </a>
+    <a href="/profile" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </a>
+  </nav>
+
+  <script>
+    // Search instant filter
+    const searchInput = document.getElementById('exploreSearch');
+    const searchResults = document.getElementById('searchResults');
+    let timer = null;
+
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(timer);
+      const query = e.target.value.trim();
+      if (!query) {
+        searchResults.classList.add('hidden');
+        searchResults.innerHTML = '';
+        return;
+      }
+
+      timer = setTimeout(async () => {
+        try {
+          const res = await fetch('/profile/searchuser', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ searchkeyword: query })
+          });
+          const data = await res.json();
+          searchResults.innerHTML = '';
+          if (data.data && data.data.length > 0) {
+            searchResults.classList.remove('hidden');
+            data.data.forEach(u => {
+              const item = document.createElement('a');
+              item.href = `/profile/userprofile/${u._id}`;
+              item.className = 'flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors';
+              item.innerHTML = `
+                <img src="${u.profileimg}" class="w-9 h-9 rounded-full object-cover ring-1 ring-[#bee84a]">
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-gray-900">${u.name}</span>
+                  <span class="text-[11px] text-gray-400">@${u.username}</span>
+                </div>
+              `;
+              searchResults.appendChild(item);
+            });
+          } else {
+            searchResults.classList.remove('hidden');
+            searchResults.innerHTML = '<div class="p-3 text-xs text-gray-400 text-center">No classmates found</div>';
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }, 250);
+    });
+
+    // Follow from card
+    async function followUser(userId, btn) {
+      try {
+        const res = await fetch('/profile/followuser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userid: userId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (data.following) {
+            btn.textContent = 'Following ✓';
+            btn.className = 'mt-3 w-full py-1.5 bg-black text-white rounded-full text-[11px] font-bold shadow-sm';
+          } else {
+            btn.textContent = 'Follow';
+            btn.className = 'mt-3 w-full py-1.5 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-full text-[11px] font-bold text-gray-900 shadow-sm';
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  </script>
+
+</body>
+</html>

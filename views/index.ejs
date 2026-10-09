@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Connect — Home</title>
+  <meta name="description" content="Your campus social feed — stay connected with classmates, stories, and campus life.">
+  <link rel="stylesheet" href="/src/output.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    .like-btn svg { transition: transform 0.15s ease; }
+    .like-btn:active svg { transform: scale(1.35); }
+    .post-card { animation: fadeUp 0.3s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .comment-section { display: none; }
+    .comment-section.open { display: flex; }
+    .timestamp { font-size: 11px; color: #9ca3af; }
+  </style>
+</head>
+
+<body class="h-screen w-full flex items-center justify-center container m-auto flex-col relative max-w-3xl">
+
+  <!-- ── TOP NAV ──────────────────────────────────────────────────────────── -->
+  <div class="h-16 fixed top-0 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-3 border-b border-gray-100">
+    <div class="flex flex-row gap-1 items-center justify-center h-full">
+      <img class="object-contain h-8" src="/images/newlogo.svg" alt="Campus Connect Logo">
+      <div class="text-3xl font-custom">Campus Connect</div>
+    </div>
+    <div class="flex flex-row gap-1 items-center justify-center">
+      <!-- Search -->
+      <div id="searchbutton" class="p-2 rounded-full bg-[#f5f7fa] cursor-pointer hover:bg-[#f4ff26] transition-colors" title="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M16.7929 16.7929C17.1834 16.4024 17.8166 16.4024 18.2071 16.7929L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L16.7929 18.2071C16.4024 17.8166 16.4024 17.1834 16.7929 16.7929Z" fill="#000000"></path>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11ZM11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3Z" fill="#000000"></path>
+        </svg>
+      </div>
+      <!-- Notifications bell with badge -->
+      <a href="/notifications" class="relative p-2 rounded-full bg-[#f5f7fa] cursor-pointer hover:bg-[#f4ff26] transition-colors" title="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M2.52992 14.394C2.31727 15.7471 3.268 16.6862 4.43205 17.1542C8.89481 18.9486 15.1052 18.9486 19.5679 17.1542C20.732 16.6862 21.6827 15.7471 21.4701 14.394C21.3394 13.5625 20.6932 12.8701 20.2144 12.194C19.5873 11.2975 19.525 10.3197 19.5249 9.27941C19.5249 5.2591 16.1559 2 12 2C7.84413 2 4.47513 5.2591 4.47513 9.27941C4.47503 10.3197 4.41272 11.2975 3.78561 12.194C3.30684 12.8701 2.66061 13.5625 2.52992 14.394Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 21C9.79613 21.6219 10.8475 22 12 22C13.1525 22 14.2039 21.6219 15 21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <% if (unreadCount > 0) { %>
+          <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-white text-[9px] flex items-center justify-center font-bold"><%= unreadCount %></span>
+        <% } %>
+      </a>
+      <!-- Message -->
+      <div id="messagebutton" class="p-2 rounded-full bg-[#f5f7fa] cursor-pointer hover:bg-[#f4ff26] transition-colors" title="Messages">
+        <svg aria-label="Messages" fill="currentColor" height="22" role="img" viewBox="0 0 24 24" width="22">
+          <path d="M12.003 2.001a9.705 9.705 0 1 1 0 19.4 10.876 10.876 0 0 1-2.895-.384.798.798 0 0 0-.533.04l-1.984.876a.801.801 0 0 1-1.123-.708l-.054-1.78a.806.806 0 0 0-.27-.569 9.49 9.49 0 0 1-3.14-7.175 9.65 9.65 0 0 1 10-9.7Z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.739"></path>
+          <path d="M17.79 10.132a.659.659 0 0 0-.962-.873l-2.556 2.05a.63.63 0 0 1-.758.002L11.06 9.47a1.576 1.576 0 0 0-2.277.42l-2.567 3.98a.659.659 0 0 0 .961.875l2.556-2.049a.63.63 0 0 1 .759-.002l2.452 1.84a1.576 1.576 0 0 0 2.278-.42Z" fill-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STORIES ───────────────────────────────────────────────────────────── -->
+  <div class="h-auto flex flex-row flex-nowrap items-center justify-start gap-2 w-full px-3 mt-16 py-3 overflow-x-scroll scrollbar-hide max-w-3xl border-b border-gray-100">
+    <!-- Your own story ring -->
+    <div class="h-18 flex flex-col items-center gap-1 flex-shrink-0 cursor-pointer" style="min-width:72px">
+      <div class="h-16 w-16 bg-gradient-to-b from-[#f4ff26] to-[#bee84a] rounded-full p-[3px] flex items-center justify-center relative">
+        <img id="storiesView" class="bg-white h-full w-full object-cover rounded-full" src="<%= user.profileimg %>" alt="Your Story">
+        <div id="storiesUpload" class="h-5 w-5 absolute bg-[#bee84a] border-2 border-white rounded-full bottom-0 right-0 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" height="12" width="12" viewBox="0 0 448 512"><path fill="#000" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+        </div>
+      </div>
+      <span class="text-[10px] text-gray-600 truncate w-16 text-center">Your Story</span>
+    </div>
+    <!-- Following stories -->
+    <% if (stories.length > 0) { %>
+      <% stories.forEach(element => { %>
+        <div class="h-18 flex flex-col items-center gap-1 flex-shrink-0 cursor-pointer" style="min-width:72px">
+          <div id="<%= element.StoryLink %>" class="stories h-16 w-16 bg-gradient-to-b from-[#f4ff26] to-[#bee84a] rounded-full p-[3px] flex items-center justify-center">
+            <img src="<%= element.Ownerimg %>" class="bg-white h-full w-full object-cover rounded-full" alt="Story">
+          </div>
+          <span class="text-[10px] text-gray-600 truncate w-16 text-center"><%= element.OwnerID %></span>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <!-- ── FEED ──────────────────────────────────────────────────────────────── -->
+  <div id="feedContainer" class="flex justify-start items-center flex-1 w-full overflow-y-scroll flex-col gap-3 max-w-2xl scrollbar-hide px-3 pb-24 bg-gray-50">
+    <% if (posts.length === 0) { %>
+      <div class="w-full mt-10 text-center text-gray-400 flex flex-col items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none"><path d="M9.5 14.5L12 12M12 12L14.5 9.5M12 12L9.5 9.5M12 12L14.5 14.5" stroke="#d1d5db" stroke-width="1.5" stroke-linecap="round"/><path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#d1d5db" stroke-width="1.5"/></svg>
+        <p class="font-semibold text-gray-500">Your feed is empty</p>
+        <p class="text-sm">Follow people to see their posts here, or be the first to post!</p>
+        <a href="/profile/explore" class="mt-2 px-5 py-2 bg-[#bee84a] rounded-full text-sm font-semibold">Explore People</a>
+      </div>
+    <% } else { %>
+      <% posts.forEach((element, index) => { %>
+        <div class="post-card w-full h-auto border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-sm mt-3" id="post-<%= element.id %>" data-postid="<%= element.id %>">
+          <!-- Post Header -->
+          <div class="h-16 w-full flex items-center flex-row px-3 gap-3">
+            <a href="/profile/userprofile/<%= currentuser[index]._id %>">
+              <div class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full ring-2 ring-[#bee84a]">
+                <img loading="lazy" class="h-full w-full object-cover" src="<%= currentuser[index].profileimg %>" alt="<%= currentuser[index].name %>">
+              </div>
+            </a>
+            <div class="flex-1">
+              <a href="/profile/userprofile/<%= currentuser[index]._id %>" class="font-semibold text-sm hover:underline"><%= currentuser[index].name %></a>
+              <div class="flex items-center gap-1 text-[11px] text-gray-400">
+                <span>@<%= currentuser[index].username %></span>
+                <span>·</span>
+                <span class="post-time" data-ts="<%= element.timestamp %>"></span>
+                <span>·</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="13" height="13" fill="none"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 9.20746 3.14465 6.68227 4.99037 4.86802M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M12 22C16.9458 22 21.053 18.4096 21.8573 13.693M21.8573 13.693C21.9511 13.1427 22 12.5771 22 12C22 7.11857 18.5024 3.05405 13.8766 2.17579M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802M13.8766 2.17579C13.2687 2.06039 12.6414 2 12 2C9.26969 2 6.79495 3.09421 4.99037 4.86802" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <!-- Options menu (delete for own posts) -->
+            <div class="relative post-options-btn cursor-pointer p-2 rounded-full hover:bg-gray-100" data-postid="<%= element.id %>" data-owner="<%= currentuser[index].username %>">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11.9922 12H12.0012M15.9842 12H15.9932M7.99902 12H8.00802" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="post-options-menu hidden absolute right-0 top-8 bg-white border border-gray-200 rounded-xl shadow-lg z-10 w-36 overflow-hidden">
+                <button class="copy-link-btn w-full px-4 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 17H7C4.23858 17 2 14.7614 2 12C2 9.23858 4.23858 7 7 7H9" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/><path d="M15 17H17C19.7614 17 22 14.7614 22 12C22 9.23858 19.7614 7 17 7H15" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/><path d="M8 12H16" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Copy Link
+                </button>
+                <button class="delete-post-btn <%= element.postOwner === user.username ? '' : 'hidden' %> w-full px-4 py-2 text-sm text-left hover:bg-red-50 text-red-500 flex items-center gap-2" data-postid="<%= element.id %>">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.29568 20.7408 5.97844 20.2848C5.33636 19.3626 5.25853 18.0801 5.10287 15.5152L4.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.33468 14.1231 2.28017 14.027 2.23395C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23966C9.8981 2.28734 9.80498 2.34371 9.71729 2.40862C9.32164 2.7092 9.10063 3.19052 8.65861 4.15316L8.05292 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Delete Post
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post Image -->
+          <a href="/post/<%= element.id %>" class="w-full bg-gray-50 overflow-hidden block">
+            <img loading="lazy" class="w-full aspect-square object-cover" src="<%= element.postURL %>" alt="Post image">
+          </a>
+
+          <!-- Actions Row -->
+          <div class="px-3 py-2 flex items-center gap-4">
+            <!-- Like -->
+            <button class="userlikebutton flex items-center gap-1.5 hover:opacity-70 transition-opacity">
+              <% if (like[index]) { %>
+                <svg id="<%= element.id %>" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ef4444"><path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <% } else { %>
+                <svg id="<%= element.id %>" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <% } %>
+              <span class="text-sm font-medium like-count"><%= TotalLikes[index] %></span>
+            </button>
+            <!-- Comment -->
+            <button class="comments flex items-center gap-1.5 hover:opacity-70 transition-opacity">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M8 13.5H16M8 8.5H12" stroke="#374151" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="text-sm font-medium comment-count"><%= element.Comment %></span>
+            </button>
+          </div>
+
+          <!-- Caption -->
+          <% if (element.caption) { %>
+            <div class="px-3 pb-1 text-sm">
+              <span class="font-semibold"><%= currentuser[index].username %></span>
+              <span class="text-gray-700"> <%= element.caption %></span>
+            </div>
+          <% } %>
+
+          <!-- Comment Section (toggle) -->
+          <div class="comment-section flex-col border-t border-gray-100 px-3 pb-3 pt-2" id="commentSection-<%= element.id %>">
+            <div class="comment-list space-y-2 max-h-40 overflow-y-scroll scrollbar-hide mb-2" id="commentList-<%= element.id %>">
+              <div class="text-xs text-gray-400 text-center">Loading comments...</div>
+            </div>
+            <div class="flex items-center gap-2 mt-1">
+              <input class="commentInput flex-1 h-9 px-3 rounded-full bg-gray-100 text-sm outline-none border-none" placeholder="Add a comment..." data-postid="<%= element.id %>">
+              <button class="submitComment h-9 w-9 bg-[#bee84a] rounded-full flex items-center justify-center flex-shrink-0" data-postid="<%= element.id %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22.3886 3.50934C22.9207 2.01947 21.4821 0.58092 19.9922 1.11301L2.24451 7.45149C0.477797 8.08246 0.630218 10.6298 2.45959 11.0455L9.59327 12.648L13.3909 8.73607C13.7756 8.3398 14.4087 8.33041 14.8049 8.7151C15.2012 9.09979 15.2106 9.73289 14.8259 10.1292L10.9106 14.1623L12.456 21.042C12.8718 22.8714 15.4191 23.0238 16.0501 21.2571L22.3886 3.50934Z" fill="#000"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <!-- Infinite scroll loader -->
+    <% if (hasMore) { %>
+      <div id="loadMore" class="w-full flex justify-center py-4" data-page="<%= currentPage + 1 %>">
+        <div class="h-8 w-8 border-4 border-[#bee84a] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- ── BOTTOM NAV ─────────────────────────────────────────────────────────── -->
+  <div class="h-16 bg-white w-full fixed bottom-0 z-50 flex items-center justify-between flex-row gap-5 rounded-t-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)] max-w-3xl">
+    <div class="flex flex-row items-center justify-around w-full px-2">
+      <!-- Home -->
+      <div id="home" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl bg-[#f4ff26]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9.00239 16.999L9.00048 21.0005C9.00021 21.5526 8.55258 22 8.00048 22L5 22C3.89543 22 3 21.1046 3 20V10.065C3 9.45242 3.28074 8.87362 3.76182 8.49437L10.7618 2.97609C11.488 2.40361 12.512 2.40361 13.2382 2.97609L20.2382 8.49437C20.7193 8.87362 21 9.45243 21 10.065V20C21 21.1046 20.1046 22 19 22L16 22C15.4477 22 15 21.5523 15 21V17C15 15.8954 14.1046 15 13 15H11.0024C9.8982 15 9.00292 15.8948 9.00239 16.999Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <!-- Explore -->
+      <a href="/profile/explore" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M2 18C2 16.4596 2 15.6893 2.34673 15.1235C2.54074 14.8069 2.80693 14.5407 3.12353 14.3467C3.68934 14 4.45956 14 6 14C7.54044 14 8.31066 14 8.87647 14.3467C9.19307 14.5407 9.45926 14.8069 9.65327 15.1235C10 15.6893 10 16.4596 10 18C10 19.5404 10 20.3107 9.65327 20.8765C9.45926 21.1931 9.19307 21.4593 8.87647 21.6533C8.31066 22 7.54044 22 6 22C4.45956 22 3.68934 22 3.12353 21.6533C2.80693 21.4593 2.54074 21.1931 2.34673 20.8765C2 20.3107 2 19.5404 2 18Z" stroke="currentColor" stroke-width="1.5"/><path d="M14 18C14 16.4596 14 15.6893 14.3467 15.1235C14.5407 14.8069 14.8069 14.5407 15.1235 14.3467C15.6893 14 16.4596 14 18 14C19.5404 14 20.3107 14 20.8765 14.3467C21.1931 14.5407 21.4593 14.8069 21.6533 15.1235C22 15.6893 22 16.4596 22 18C22 19.5404 22 20.3107 21.6533 20.8765C21.4593 21.1931 21.1931 21.4593 20.8765 21.6533C20.3107 22 19.5404 22 18 22C16.4596 22 15.6893 22 15.1235 21.6533C14.8069 21.4593 14.5407 21.1931 14.3467 20.8765C14 20.3107 14 19.5404 14 18Z" stroke="currentColor" stroke-width="1.5"/><path d="M2 6C2 4.45956 2 3.68934 2.34673 3.12353C2.54074 2.80693 2.80693 2.54074 3.12353 2.34673C3.68934 2 4.45956 2 6 2C7.54044 2 8.31066 2 8.87647 2.34673C9.19307 2.54074 9.45926 2.80693 9.65327 3.12353C10 3.68934 10 4.45956 10 6C10 7.54044 10 8.31066 9.65327 8.87647C9.45926 9.19307 9.19307 9.45926 8.87647 9.65327C8.31066 10 7.54044 10 6 10C4.45956 10 3.68934 10 3.12353 9.65327C2.80693 9.45926 2.54074 9.19307 2.34673 8.87647C2 8.31066 2 7.54044 2 6Z" stroke="currentColor" stroke-width="1.5"/><path d="M14 6C14 4.45956 14 3.68934 14.3467 3.12353C14.5407 2.80693 14.8069 2.54074 15.1235 2.34673C15.6893 2 16.4596 2 18 2C19.5404 2 20.3107 2 20.8765 2.34673C21.1931 2.54074 21.4593 2.80693 21.6533 3.12353C22 3.68934 22 4.45956 22 6C22 7.54044 22 8.31066 21.6533 8.87647C21.4593 9.19307 21.1931 9.45926 20.8765 9.65327C20.3107 10 19.5404 10 18 10C16.4596 10 15.6893 10 15.1235 9.65327C14.8069 9.45926 14.5407 9.19307 14.3467 8.87647C14 8.31066 14 7.54044 14 6Z" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <!-- Upload (center) -->
+      <div id="uploadPostIcon" class="cursor-pointer h-14 w-14 rounded-full bg-gradient-to-b from-[#f4ff26] to-[#bee84a] flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow -mt-6">
+        <svg xmlns="http://www.w3.org/2000/svg" height="22" width="22" viewBox="0 0 448 512"><path fill="#000" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+      </div>
+      <!-- Events -->
+      <a href="/events" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M18 2V4M6 2V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.9955 13H12.0045M11.9955 17H12.0045M15.991 13H16M8 13H8.00897M8 17H8.00897" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 8H20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 12.2432C2.5 7.88594 2.5 5.70728 3.75212 4.35364C5.00424 3 7.01949 3 11.05 3H12.95C16.9805 3 18.9958 3 20.2479 4.35364C21.5 5.70728 21.5 7.88594 21.5 12.2432V12.7568C21.5 17.1141 21.5 19.2927 20.2479 20.6464C18.9958 22 16.9805 22 12.95 22H11.05C7.01949 22 5.00424 22 3.75212 20.6464C2.5 19.2927 2.5 17.1141 2.5 12.7568V12.2432Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <!-- Anonymous -->
+      <div id="anyonomousIcon" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 15.0001C5.34315 15.0001 4 16.3433 4 18.0001C4 19.657 5.34315 21.0001 7 21.0001C8.65685 21.0001 10 19.657 10 18.0001C10 16.3433 8.65685 15.0001 7 15.0001Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 15.0001C15.3431 15.0001 14 16.3433 14 18.0001C14 19.657 15.3431 21.0001 17 21.0001C18.6569 21.0001 20 19.657 20 18.0001C20 16.3433 18.6569 15.0001 17 15.0001Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 17.0001H10" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 13.0001C19.5434 11.7726 15.9734 11.0001 12 11.0001C8.02658 11.0001 4.45659 11.7726 2 13.0001" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 12.0001L6.01724 4.69603C6.22846 3.17934 8.05541 2.47569 9.26537 3.445C11 5.00012 13 5.00012 14.7346 3.445C15.9446 2.47569 17.7715 3.17934 17.9828 4.69603L19 12.0001" stroke="#000000" stroke-width="1.5" stroke-linejoin="round"></path></svg>
+      </div>
+      <!-- Profile -->
+      <div id="profile_section" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100">
+        <img class="h-7 w-7 rounded-full object-cover ring-2 ring-[#bee84a]" src="<%= user.profileimg %>" alt="Profile">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEARCH OVERLAY ─────────────────────────────────────────────────────── -->
+  <div id="searchpage" class="absolute hidden h-full w-full z-[100] bg-white p-4 items-center justify-center flex-col">
+    <div class="w-full h-12 font-bold text-2xl flex items-center justify-between mb-3">
+      <div>Search</div>
+      <div id="closesearchbar" class="cursor-pointer p-1"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 384 512"><path fill="#000" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></div>
+    </div>
+    <div class="w-full flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-full bg-gray-50 mb-3">
+      <svg class="text-gray-400" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z" fill="currentColor"></path></svg>
+      <input id="searchuserid" placeholder="Search users..." type="search" class="flex-1 bg-transparent outline-none text-sm">
+    </div>
+    <div id="searchuserdisplay" class="flex-1 w-full overflow-y-auto space-y-1"></div>
+  </div>
+
+  <!-- ── POST UPLOAD MODAL ──────────────────────────────────────────────────── -->
+  <div id="postupload" class="fixed h-full w-full bg-black/40 z-[90] max-w-3xl hidden items-center justify-center backdrop-blur-sm">
+    <form class="h-auto w-[92%] p-5 bg-white z-[100] rounded-3xl space-y-4 shadow-2xl" action="/file/upload/post" method="post" enctype="multipart/form-data">
+      <div class="font-semibold text-xl flex items-center justify-between">
+        <div>Create Post</div>
+        <div id="postdivClose" class="p-1 cursor-pointer rounded-full hover:bg-gray-100"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.11654 18.116C3.62839 18.6041 3.62839 19.3956 4.11654 19.8838C4.6047 20.3719 5.39616 20.3719 5.88431 19.8838L19.8843 5.88376C20.3725 5.39561 20.3725 4.60415 19.8843 4.11599C19.3962 3.62784 18.6047 3.62784 18.1165 4.11599L4.11654 18.116Z" fill="#000"></path><path d="M5.88434 4.11599C5.39619 3.62784 4.60473 3.62784 4.11657 4.11599C3.62842 4.60415 3.62842 5.39561 4.11657 5.88376L18.1166 19.8838C18.6047 20.3719 19.3962 20.3719 19.8843 19.8838C20.3725 19.3956 20.3725 18.6041 19.8843 18.116L5.88434 4.11599Z" fill="#000"></path></svg></div>
+      </div>
+      <label class="w-full flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#bee84a] transition-colors bg-gray-50" for="post">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12.5C2 9.08172 4.58172 6.5 8 6.5C8.32602 6.5 8.64677 6.52437 8.96004 6.57101C9.89734 4.4325 12.0101 3 14.4375 3C17.7898 3 20.5 5.57194 20.5 8.76132C20.5 9.0086 20.4885 9.25343 20.4664 9.49552C21.3933 10.2738 22 11.3805 22 12.5C22 15.5376 19.5376 18 16.5 18H8C4.68629 18 2 15.3137 2 12.5Z" stroke="#9ca3af" stroke-width="1.5"/></svg>
+        <span class="text-xs text-gray-400 mt-1">Click to upload image</span>
+        <input class="hidden" type="file" name="file" id="post" accept="image/png,image/jpeg,image/jpg,image/webp">
+      </label>
+      <input class="w-full h-11 border border-gray-200 rounded-xl px-3 text-sm focus:outline-none focus:border-[#bee84a]" type="text" name="postcaption" id="postcaption" placeholder="Write a caption...">
+      <button class="w-full h-11 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity" type="submit">Share Post</button>
+    </form>
+  </div>
+
+  <!-- ── STORY UPLOAD MODAL ─────────────────────────────────────────────────── -->
+  <div id="storyupload" class="fixed h-full w-full bg-black/40 z-[90] max-w-3xl hidden items-center justify-center backdrop-blur-sm">
+    <form class="h-auto w-[92%] p-5 bg-white z-[100] rounded-3xl space-y-4 shadow-2xl" action="/file/upload/stories" method="post" enctype="multipart/form-data">
+      <div class="font-semibold text-xl flex items-center justify-between">
+        <div>Create Story</div>
+        <div id="storydivClose" class="p-1 cursor-pointer rounded-full hover:bg-gray-100"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.11654 18.116C3.62839 18.6041 3.62839 19.3956 4.11654 19.8838C4.6047 20.3719 5.39616 20.3719 5.88431 19.8838L19.8843 5.88376C20.3725 5.39561 20.3725 4.60415 19.8843 4.11599C19.3962 3.62784 18.6047 3.62784 18.1165 4.11599L4.11654 18.116Z" fill="#000"></path><path d="M5.88434 4.11599C5.39619 3.62784 4.60473 3.62784 4.11657 4.11599C3.62842 4.60415 3.62842 5.39561 4.11657 5.88376L18.1166 19.8838C18.6047 20.3719 19.3962 20.3719 19.8843 19.8838C20.3725 19.3956 20.3725 18.6041 19.8843 18.116L5.88434 4.11599Z" fill="#000"></path></svg></div>
+      </div>
+      <label class="w-full flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#bee84a] transition-colors bg-gray-50" for="Storyimg">
+        <span class="text-xs text-gray-400">Upload your story image</span>
+        <span class="text-[10px] text-gray-300">Disappears in 24 hours</span>
+        <input class="hidden" type="file" name="file" id="Storyimg" accept="image/png,image/jpeg,image/jpg,image/webp">
+      </label>
+      <button class="w-full h-11 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity" type="submit">Add to Story</button>
+    </form>
+  </div>
+
+  <!-- ── STORY VIEW ─────────────────────────────────────────────────────────── -->
+  <div id="storyView" class="fixed max-w-3xl hidden border-x border-gray-200 h-full w-full z-[100] bg-black flex-col">
+    <div class="h-16 w-full flex items-center justify-between flex-row px-4 absolute top-0 z-10">
+      <div class="text-white font-semibold" id="storyOwnerName">Story</div>
+      <div class="p-2 cursor-pointer" id="CloseStory">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4.11654 18.116C3.62839 18.6041 3.62839 19.3956 4.11654 19.8838C4.6047 20.3719 5.39616 20.3719 5.88431 19.8838L19.8843 5.88376C20.3725 5.39561 20.3725 4.60415 19.8843 4.11599C19.3962 3.62784 18.6047 3.62784 18.1165 4.11599L4.11654 18.116Z" fill="white"></path><path d="M5.88434 4.11599C5.39619 3.62784 4.60473 3.62784 4.11657 4.11599C3.62842 4.60415 3.62842 5.39561 4.11657 5.88376L18.1166 19.8838C18.6047 20.3719 19.3962 20.3719 19.8843 19.8838C20.3725 19.3956 20.3725 18.6041 19.8843 18.116L5.88434 4.11599Z" fill="white"></path></svg>
+      </div>
+    </div>
+    <div id="storyImgContainer" class="h-full w-full flex items-center justify-center">
+      <img id="storyImg" class="w-full h-full object-contain" src="" alt="Story">
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm px-4 py-2 rounded-full opacity-0 transition-opacity duration-300 z-[200] pointer-events-none">Copied!</div>
+
+</body>
+<script src="/js/script.js"></script>
+</html>

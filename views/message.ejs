@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages — Campus Connect</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    .bubble-me { background: linear-gradient(135deg, #f4ff26, #bee84a); color: #111827; }
+    .bubble-them { background: #f3f4f6; color: #1f2937; }
+  </style>
+</head>
+
+<body class="h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 overflow-hidden" data-session-user="<%= sessionUsername %>">
+
+  <!-- ── TOP BAR ───────────────────────────────────────────────────────────── -->
+  <header class="h-16 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-4 border-b border-gray-200 flex-shrink-0">
+    <div class="flex items-center gap-2">
+      <a href="/" class="p-2 rounded-full hover:bg-gray-100 transition-colors" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+      <div class="flex items-center gap-1.5">
+        <img class="h-7 object-contain" src="/images/newlogo.svg" alt="Logo">
+        <h1 class="text-lg font-bold text-gray-900">Direct Messages</h1>
+      </div>
+    </div>
+    
+    <div class="text-xs text-gray-500 font-semibold">
+      @<%= sessionUsername %>
+    </div>
+  </header>
+
+  <!-- ── MAIN CHAT WORKSPACE ────────────────────────────────────────────────── -->
+  <div class="flex-1 w-full flex flex-row overflow-hidden relative">
+
+    <!-- Contacts Sidebar -->
+    <aside id="chatprofile" class="w-full sm:w-[38%] h-full bg-white border-r border-gray-200 flex flex-col flex-shrink-0 overflow-y-auto">
+      <div class="p-3 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+        Conversations (<%= userDetails.length %>)
+      </div>
+
+      <% if (userDetails.length === 0) { %>
+        <div class="p-6 text-center text-xs text-gray-400 flex flex-col items-center gap-2">
+          <span>💬</span>
+          <p>No mutual contacts yet.</p>
+          <a href="/profile/explore" class="mt-2 px-3 py-1 bg-[#bee84a] rounded-full text-gray-900 font-bold">Follow Classmates</a>
+        </div>
+      <% } else { %>
+        <div class="flex flex-col">
+          <% userDetails.forEach(contact => { %>
+            <div data-id="<%= contact._id %>" data-username="<%= contact.username %>" data-name="<%= contact.name %>" data-img="<%= contact.profileimg %>" 
+              class="contact-item p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 transition-colors">
+              <div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-[#bee84a] flex-shrink-0">
+                <img src="<%= contact.profileimg %>" alt="<%= contact.name %>" class="w-full h-full object-cover">
+              </div>
+              <div class="flex flex-col flex-1 min-w-0">
+                <span class="text-sm font-bold text-gray-900 truncate"><%= contact.name %></span>
+                <span class="text-xs text-gray-400 truncate">@<%= contact.username %></span>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </aside>
+
+    <!-- Chat Active Box -->
+    <main id="chatbox" class="hidden sm:flex flex-1 h-full flex-col bg-white overflow-hidden relative">
+      
+      <!-- Chat Partner Header -->
+      <div id="activeUserHeader" class="h-14 px-4 border-b border-gray-100 flex items-center justify-between bg-white flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <!-- Back button on mobile -->
+          <button id="mobileBackToContacts" class="sm:hidden p-1.5 rounded-full hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <img id="activeUserImg" src="/images/bhupesh.jpeg" alt="Partner" class="w-9 h-9 rounded-full object-cover ring-1 ring-[#bee84a]">
+          <div class="flex flex-col">
+            <span id="activeUserName" class="text-sm font-bold text-gray-900 leading-tight">Select a contact</span>
+            <span id="activeUserUsername" class="text-[11px] text-gray-400">Offline</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div id="chatMessages" class="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5 bg-gray-50/50">
+        <div id="chatEmptyState" class="h-full flex flex-col items-center justify-center text-center text-gray-400 text-xs">
+          <span>✨</span>
+          <p class="mt-1">Select a contact on the left to start chatting</p>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="p-3 border-t border-gray-100 bg-white flex items-center gap-2 flex-shrink-0">
+        <input id="messageInput" type="text" placeholder="Type a message..." 
+          class="flex-1 px-4 py-2.5 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-[#bee84a] text-gray-900">
+        <button id="sendBtn" class="p-2.5 rounded-full bg-gradient-to-r from-[#f4ff26] to-[#bee84a] text-gray-900 shadow hover:opacity-90 transition-opacity">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="/js/message.js"></script>
+</body>
+</html>

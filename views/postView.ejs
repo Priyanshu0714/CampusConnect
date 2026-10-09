@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post by <%= postOwner.name %> (@<%= postOwner.username %>) — Campus Connect</title>
+  <meta name="description" content="<%= post.caption || 'Campus Connect post' %>">
+  <link rel="stylesheet" href="/src/output.css">
+  <style>
+    .like-btn svg { transition: transform 0.15s ease; }
+    .like-btn:active svg { transform: scale(1.35); }
+  </style>
+</head>
+
+<body class="min-h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 pb-24">
+
+  <!-- ── TOP BAR ───────────────────────────────────────────────────────────── -->
+  <header class="h-16 fixed top-0 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-4 border-b border-gray-200">
+    <div class="flex items-center gap-3">
+      <button onclick="window.history.length > 1 ? window.history.back() : window.location.href='/'" class="p-2 rounded-full hover:bg-gray-100 transition-colors" title="Go Back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      <h1 class="text-xl font-bold text-gray-900">Post</h1>
+    </div>
+    <a href="/" class="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-600" title="Home Feed">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+  </header>
+
+  <!-- ── MAIN POST CONTAINER ───────────────────────────────────────────────── -->
+  <main class="w-full mt-20 px-3 flex flex-col gap-4 max-w-2xl">
+    <div class="post-card w-full h-auto border border-gray-200 rounded-3xl overflow-hidden bg-white shadow-sm" data-postid="<%= post._id %>">
+      <!-- Post Header -->
+      <div class="h-16 w-full flex items-center flex-row px-4 gap-3 border-b border-gray-50">
+        <a href="/profile/userprofile/<%= postOwner._id %>">
+          <div class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full ring-2 ring-[#bee84a]">
+            <img class="h-full w-full object-cover" src="<%= postOwner.profileimg %>" alt="<%= postOwner.name %>">
+          </div>
+        </a>
+        <div class="flex-1">
+          <a href="/profile/userprofile/<%= postOwner._id %>" class="font-bold text-sm text-gray-900 hover:underline"><%= postOwner.name %></a>
+          <div class="flex items-center gap-1 text-[11px] text-gray-400">
+            <span>@<%= postOwner.username %></span>
+            <span>·</span>
+            <span class="post-time" data-ts="<%= post.timestamp %>"><%= new Date(post.timestamp).toLocaleDateString([], { month: "short", day: "numeric" }) %></span>
+          </div>
+        </div>
+
+        <!-- Options Menu -->
+        <div class="relative post-options-btn cursor-pointer p-2 rounded-full hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11.9922 12H12.0012M15.9842 12H15.9932M7.99902 12H8.00802" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="post-options-menu hidden absolute right-0 top-8 bg-white border border-gray-200 rounded-xl shadow-lg z-10 w-36 overflow-hidden">
+            <button id="copyPostLink" class="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 17H7C4.23858 17 2 14.7614 2 12C2 9.23858 4.23858 7 7 7H9" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/><path d="M15 17H17C19.7614 17 22 14.7614 22 12C22 9.23858 19.7614 7 17 7H15" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/><path d="M8 12H16" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Copy Link
+            </button>
+            <% if (post.postOwner === user.username) { %>
+              <button id="deletePostBtn" class="w-full px-4 py-2 text-sm text-left hover:bg-red-50 text-red-500 flex items-center gap-2" data-postid="<%= post._id %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.29568 20.7408 5.97844 20.2848C5.33636 19.3626 5.25853 18.0801 5.10287 15.5152L4.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.33468 14.1231 2.28017 14.027 2.23395C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23966C9.8981 2.28734 9.80498 2.34371 9.71729 2.40862C9.32164 2.7092 9.10063 3.19052 8.65861 4.15316L8.05292 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Delete Post
+              </button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Image -->
+      <div class="w-full bg-black/5 flex items-center justify-center overflow-hidden max-h-[500px]">
+        <img class="w-full h-auto max-h-[500px] object-contain" src="<%= post.postURL %>" alt="Post photo">
+      </div>
+
+      <!-- Actions Row -->
+      <div class="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+        <div class="flex items-center gap-5">
+          <!-- Like Button -->
+          <button id="likeButton" class="userlikebutton flex items-center gap-1.5 hover:opacity-70 transition-opacity">
+            <svg id="<%= post._id %>" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="<%= isLiked ? '#ef4444' : 'none' %>">
+              <path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="<%= isLiked ? '#ef4444' : '#374151' %>" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="text-sm font-semibold text-gray-800 like-count"><%= totalLikes %></span>
+          </button>
+
+          <!-- Comment Button -->
+          <div class="flex items-center gap-1.5 text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M8 13.5H16M8 8.5H12" stroke="#374151" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span class="text-sm font-semibold text-gray-800 comment-count"><%= comments.length %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Caption -->
+      <% if (post.caption) { %>
+        <div class="px-4 py-3 text-sm border-b border-gray-100 bg-gray-50/50">
+          <span class="font-bold text-gray-900">@<%= postOwner.username %></span>
+          <span class="text-gray-700 ml-1.5 leading-relaxed"><%= post.caption %></span>
+        </div>
+      <% } %>
+
+      <!-- ── COMMENTS SECTION ─────────────────────────────────────────────── -->
+      <div class="px-4 py-3 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500">Comments (<span id="commentHeaderCount"><%= comments.length %></span>)</h2>
+        </div>
+
+        <!-- Comments List -->
+        <div id="commentsList" class="space-y-2.5 max-h-96 overflow-y-auto pr-1">
+          <% if (comments.length === 0) { %>
+            <div id="noCommentsNotice" class="text-center py-6 text-xs text-gray-400">
+              No comments yet. Be the first to start the conversation!
+            </div>
+          <% } else { %>
+            <% comments.forEach(c => { %>
+              <div class="p-2.5 rounded-2xl bg-gray-50 border border-gray-100 text-xs flex flex-col gap-1 group relative" id="comment-<%= c._id %>">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-gray-900">@<%= c.userName %></span>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[10px] text-gray-400"><%= new Date(c.timestamp).toLocaleDateString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) %></span>
+                    <% if (c.userName === user.username) { %>
+                      <button onclick="deleteComment('<%= c._id %>')" class="opacity-0 group-hover:opacity-100 text-rose-500 hover:text-rose-700 text-[10px] transition-opacity" title="Delete comment">✕</button>
+                    <% } %>
+                  </div>
+                </div>
+                <p class="text-gray-800 leading-relaxed"><%= c.comment %></p>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+
+        <!-- Add Comment Input Box -->
+        <div class="flex items-center gap-2 pt-2 border-t border-gray-100">
+          <input id="newCommentInput" class="flex-1 h-10 px-4 rounded-full bg-gray-100 text-sm outline-none border border-transparent focus:border-[#bee84a] focus:bg-white transition-all" placeholder="Write a comment as @<%= user.username %>...">
+          <button id="postCommentBtn" class="h-10 px-4 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-full flex items-center justify-center font-bold text-xs text-gray-900 hover:opacity-90 transition-opacity gap-1 flex-shrink-0 shadow-sm">
+            <span>Send</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22.3886 3.50934C22.9207 2.01947 21.4821 0.58092 19.9922 1.11301L2.24451 7.45149C0.477797 8.08246 0.630218 10.6298 2.45959 11.0455L9.59327 12.648L13.3909 8.73607C13.7756 8.3398 14.4087 8.33041 14.8049 8.7151C15.2012 9.09979 15.2106 9.73289 14.8259 10.1292L10.9106 14.1623L12.456 21.042C12.8718 22.8714 15.4191 23.0238 16.0501 21.2571L22.3886 3.50934Z" fill="#000"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── BOTTOM NAVIGATION ──────────────────────────────────────────────────── -->
+  <nav class="h-16 bg-white w-full fixed bottom-0 z-50 flex items-center justify-around rounded-t-2xl max-w-3xl border-t border-gray-200 px-3">
+    <a href="/" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <a href="/profile/explore" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Explore">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+    </a>
+    <a href="/events" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Events">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+    </a>
+    <a href="/notifications" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+    </a>
+    <a href="/profile" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </a>
+  </nav>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-4 py-2 rounded-full opacity-0 transition-opacity duration-300 z-[200] pointer-events-none">Copied!</div>
+
+  <script>
+    const postId = "<%= post._id %>";
+    const currentUsername = "<%= user.username %>";
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.remove("opacity-0");
+      toast.classList.add("opacity-100");
+      setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        toast.classList.add("opacity-0");
+      }, 2000);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      const d = document.createElement("div");
+      d.innerText = str;
+      return d.innerHTML;
+    }
+
+    // Toggle options menu
+    const optionsBtn = document.querySelector(".post-options-btn");
+    const optionsMenu = document.querySelector(".post-options-menu");
+    if (optionsBtn && optionsMenu) {
+      optionsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        optionsMenu.classList.toggle("hidden");
+      });
+      document.addEventListener("click", () => {
+        optionsMenu.classList.add("hidden");
+      });
+    }
+
+    // Copy link
+    const copyBtn = document.getElementById("copyPostLink");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast("Post link copied to clipboard! 📋");
+        });
+      });
+    }
+
+    // Like toggle
+    const likeBtn = document.getElementById("likeButton");
+    if (likeBtn) {
+      likeBtn.addEventListener("click", async () => {
+        const svg = likeBtn.querySelector("svg");
+        const countEl = likeBtn.querySelector(".like-count");
+        let currentCount = parseInt(countEl.textContent) || 0;
+
+        try {
+          const res = await fetch("/like/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: postId }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            svg.setAttribute("fill", "#ef4444");
+            svg.querySelector("path").setAttribute("stroke", "#ef4444");
+            countEl.textContent = currentCount + 1;
+          } else {
+            svg.setAttribute("fill", "none");
+            svg.querySelector("path").setAttribute("stroke", "#374151");
+            countEl.textContent = Math.max(0, currentCount - 1);
+          }
+        } catch (err) {
+          console.error("Like error:", err);
+          showToast("Failed to update like");
+        }
+      });
+    }
+
+    // Save toggle
+    async function toggleSave() {
+      try {
+        const res = await fetch(`/post/save/${postId}`, { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.saved ? "Saved to bookmarks! 🔖" : "Removed from bookmarks");
+          const saveText = document.getElementById("savePostText");
+          if (saveText) saveText.textContent = data.saved ? "Saved 🔖" : "Save Post";
+          const quickSaveSvg = document.querySelector("#quickSaveBtn svg");
+          if (quickSaveSvg) quickSaveSvg.setAttribute("fill", data.saved ? "#bee84a" : "none");
+        }
+      } catch (err) {
+        console.error("Save error:", err);
+      }
+    }
+    const savePostBtn = document.getElementById("savePostBtn");
+    if (savePostBtn) savePostBtn.addEventListener("click", toggleSave);
+    const quickSaveBtn = document.getElementById("quickSaveBtn");
+    if (quickSaveBtn) quickSaveBtn.addEventListener("click", toggleSave);
+
+    // Delete post
+    const deleteBtn = document.getElementById("deletePostBtn");
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", async () => {
+        if (!confirm("Are you sure you want to delete this post? This cannot be undone.")) return;
+        try {
+          const res = await fetch(`/post/delete/${postId}`, { method: "DELETE" });
+          const data = await res.json();
+          if (data.success) {
+            alert("Post deleted successfully.");
+            window.location.href = "/";
+          } else {
+            showToast(data.message || "Could not delete post");
+          }
+        } catch (err) {
+          console.error(err);
+          showToast("Delete failed");
+        }
+      });
+    }
+
+    // Post comment
+    const commentInput = document.getElementById("newCommentInput");
+    const postCommentBtn = document.getElementById("postCommentBtn");
+    const commentsList = document.getElementById("commentsList");
+    const headerCount = document.getElementById("commentHeaderCount");
+    const commentCountBadge = document.querySelector(".comment-count");
+
+    async function submitComment() {
+      const text = commentInput.value.trim();
+      if (!text) return;
+
+      postCommentBtn.disabled = true;
+      postCommentBtn.style.opacity = "0.6";
+
+      try {
+        const res = await fetch("/comment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ postid: postId, message: text }),
+        });
+        const data = await res.json();
+
+        if (data.success && data.comment) {
+          commentInput.value = "";
+          const noNotice = document.getElementById("noCommentsNotice");
+          if (noNotice) noNotice.remove();
+
+          const newCard = document.createElement("div");
+          newCard.className = "p-2.5 rounded-2xl bg-gray-50 border border-gray-100 text-xs flex flex-col gap-1 group relative";
+          newCard.id = `comment-${data.comment._id}`;
+          newCard.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-gray-900">@${escapeHtml(data.comment.userName)}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] text-gray-400">Just now</span>
+                <button onclick="deleteComment('${data.comment._id}')" class="opacity-0 group-hover:opacity-100 text-rose-500 hover:text-rose-700 text-[10px] transition-opacity" title="Delete comment">✕</button>
+              </div>
+            </div>
+            <p class="text-gray-800 leading-relaxed">${escapeHtml(data.comment.comment)}</p>
+          `;
+          commentsList.appendChild(newCard);
+          commentsList.scrollTop = commentsList.scrollHeight;
+
+          const updatedCount = (parseInt(headerCount.textContent) || 0) + 1;
+          headerCount.textContent = updatedCount;
+          if (commentCountBadge) commentCountBadge.textContent = updatedCount;
+          showToast("Comment posted! 💬");
+        } else {
+          showToast(data.message || "Could not post comment");
+        }
+      } catch (err) {
+        console.error("Comment submit error:", err);
+        showToast("Network error while commenting");
+      } finally {
+        postCommentBtn.disabled = false;
+        postCommentBtn.style.opacity = "1";
+      }
+    }
+
+    if (postCommentBtn) postCommentBtn.addEventListener("click", submitComment);
+    if (commentInput) {
+      commentInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          submitComment();
+        }
+      });
+    }
+
+    // Delete comment
+    async function deleteComment(commentId) {
+      if (!confirm("Delete your comment?")) return;
+      try {
+        const res = await fetch(`/comment/delete/${commentId}`, { method: "DELETE" });
+        const data = await res.json();
+        if (data.success) {
+          const el = document.getElementById(`comment-${commentId}`);
+          if (el) el.remove();
+          const updatedCount = Math.max(0, (parseInt(headerCount.textContent) || 1) - 1);
+          headerCount.textContent = updatedCount;
+          if (commentCountBadge) commentCountBadge.textContent = updatedCount;
+          showToast("Comment removed");
+        } else {
+          showToast("Failed to delete comment");
+        }
+      } catch (err) {
+        console.error("Delete comment error:", err);
+        showToast("Error deleting comment");
+      }
+    }
+  </script>
+</body>
+</html>

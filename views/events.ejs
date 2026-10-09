@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Events — Campus Connect</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <style>
+    .event-card { transition: all 0.2s ease; }
+    .event-card:hover { transform: translateY(-2px); }
+  </style>
+</head>
+
+<body class="min-h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 pb-24">
+
+  <!-- ── TOP BAR ───────────────────────────────────────────────────────────── -->
+  <header class="h-16 fixed top-0 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-4 border-b border-gray-200">
+    <div class="flex items-center gap-3">
+      <a href="/" class="p-2 rounded-full hover:bg-gray-100 transition-colors" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+      <h1 class="text-xl font-bold text-gray-900">Campus Events</h1>
+    </div>
+    <button id="openCreateEvent" class="px-4 py-2 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-full text-xs font-bold text-gray-900 shadow-sm hover:shadow transition-all flex items-center gap-1.5">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Post Event
+    </button>
+  </header>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────────────────────── -->
+  <main class="w-full mt-20 px-3 flex flex-col gap-5 max-w-2xl">
+    
+    <!-- Tab Controls -->
+    <div class="flex items-center bg-gray-200/70 p-1 rounded-2xl w-full">
+      <button id="tabUpcoming" class="flex-1 py-2 text-xs font-bold rounded-xl bg-white shadow-sm text-gray-900 transition-all">Upcoming (<%= upcomingEvents.length %>)</button>
+      <button id="tabPast" class="flex-1 py-2 text-xs font-bold rounded-xl text-gray-500 hover:text-gray-900 transition-all">Past Events (<%= pastEvents.length %>)</button>
+    </div>
+
+    <!-- UPCOMING EVENTS LIST -->
+    <div id="upcomingSection" class="flex flex-col gap-4 w-full">
+      <% if (upcomingEvents.length === 0) { %>
+        <div class="text-center py-12 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+          <div class="text-3xl mb-2">🎓</div>
+          <h2 class="text-base font-bold text-gray-800">No upcoming events yet</h2>
+          <p class="text-xs text-gray-500 mt-1">Hosting a hackathon, workshop, or cultural fest? Click "Post Event" above!</p>
+        </div>
+      <% } else { %>
+        <% upcomingEvents.forEach(evt => { %>
+          <div class="event-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
+            <% if (evt.posterURL) { %>
+              <div class="w-full h-48 bg-gray-100 overflow-hidden relative">
+                <img src="<%= evt.posterURL %>" alt="<%= evt.title %>" class="w-full h-full object-cover">
+                <div class="absolute top-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[11px] font-bold text-gray-800 shadow">
+                  📍 <%= evt.venue || 'Campus' %>
+                </div>
+              </div>
+            <% } %>
+
+            <div class="p-4 flex flex-col gap-2.5">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-lg font-bold text-gray-900 leading-snug"><%= evt.title %></h3>
+                <% if (!evt.posterURL && evt.venue) { %>
+                  <span class="text-[11px] px-2.5 py-1 bg-gray-100 font-semibold rounded-full text-gray-700">📍 <%= evt.venue %></span>
+                <% } %>
+              </div>
+
+              <!-- Date & Creator info -->
+              <div class="flex items-center gap-3 text-xs text-gray-500">
+                <span class="flex items-center gap-1 font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                  🗓️ <%= new Date(evt.eventDate).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                </span>
+                <span>By <strong class="text-gray-700">@<%= evt.createdBy %></strong></span>
+              </div>
+
+              <% if (evt.description) { %>
+                <p class="text-sm text-gray-600 leading-relaxed mt-1"><%= evt.description %></p>
+              <% } %>
+
+              <!-- Interested Action -->
+              <div class="pt-3 border-t border-gray-100 flex items-center justify-between mt-1">
+                <span class="text-xs text-gray-500">
+                  <span id="count-<%= evt._id %>" class="font-bold text-gray-900"><%= evt.interested ? evt.interested.length : 0 %></span> interested
+                </span>
+
+                <button onclick="toggleInterested('<%= evt._id %>')" 
+                  id="btn-<%= evt._id %>"
+                  class="px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5
+                  <%= evt.interested && evt.interested.includes(username) ? 'bg-black text-white' : 'bg-[#f4ff26] hover:bg-[#bee84a] text-gray-900' %>">
+                  <span><%= evt.interested && evt.interested.includes(username) ? '✓ Interested' : '★ I am Interested' %></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <!-- PAST EVENTS LIST -->
+    <div id="pastSection" class="flex flex-col gap-4 w-full hidden">
+      <% if (pastEvents.length === 0) { %>
+        <div class="text-center py-10 bg-white rounded-2xl border border-gray-200 p-6 text-sm text-gray-500">
+          No past events recorded yet.
+        </div>
+      <% } else { %>
+        <% pastEvents.forEach(evt => { %>
+          <div class="bg-white/80 rounded-2xl border border-gray-200 p-4 opacity-75 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-gray-700 text-base"><%= evt.title %></h3>
+              <span class="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded">Past</span>
+            </div>
+            <div class="text-xs text-gray-500">
+              <%= new Date(evt.eventDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %> • Venue: <%= evt.venue || 'Campus' %>
+            </div>
+            <% if (evt.description) { %>
+              <p class="text-xs text-gray-500 line-clamp-2"><%= evt.description %></p>
+            <% } %>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+
+  </main>
+
+  <!-- ── CREATE EVENT MODAL ────────────────────────────────────────────────── -->
+  <div id="createEventModal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <h2 class="text-xl font-bold text-gray-900">Post Campus Event</h2>
+        <button id="closeCreateEvent" class="p-1 rounded-full hover:bg-gray-100 text-gray-500">✕</button>
+      </div>
+
+      <form action="/events/create" method="POST" enctype="multipart/form-data" class="mt-4 flex flex-col gap-3.5">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Event Title *</label>
+          <input type="text" name="title" required placeholder="e.g. Annual Hackathon 2026" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#bee84a]">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Date & Time *</label>
+            <input type="datetime-local" name="eventDate" required 
+              class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#bee84a]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Venue / Location</label>
+            <input type="text" name="venue" placeholder="Auditorium / Lab 3" 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#bee84a]">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Description</label>
+          <textarea name="description" rows="3" placeholder="Tell students about registration, rules, prizes, or guests..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#bee84a]"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Event Poster (Optional)</label>
+          <input type="file" name="poster" accept="image/*"
+            class="w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#f4ff26] file:text-gray-800 hover:file:bg-[#bee84a]">
+        </div>
+
+        <button type="submit" class="mt-2 w-full py-3 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-xl font-bold text-sm text-gray-900 shadow hover:opacity-95 transition-all">
+          Publish Event
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── BOTTOM NAVIGATION ──────────────────────────────────────────────────── -->
+  <nav class="h-16 bg-white w-full fixed bottom-0 z-50 flex items-center justify-around rounded-t-2xl max-w-3xl border-t border-gray-200 px-3">
+    <a href="/" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <a href="/profile/explore" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Explore">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+    </a>
+    <a href="/events" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl bg-[#f4ff26]" title="Events">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+    </a>
+    <a href="/notifications" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+    </a>
+    <a href="/profile" class="flex flex-col items-center gap-0.5 cursor-pointer p-2 rounded-xl hover:bg-gray-100" title="Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </a>
+  </nav>
+
+  <script>
+    // Tab switching
+    const tabUpcoming = document.getElementById('tabUpcoming');
+    const tabPast = document.getElementById('tabPast');
+    const upcomingSection = document.getElementById('upcomingSection');
+    const pastSection = document.getElementById('pastSection');
+
+    tabUpcoming.addEventListener('click', () => {
+      tabUpcoming.classList.add('bg-white', 'shadow-sm', 'text-gray-900');
+      tabUpcoming.classList.remove('text-gray-500');
+      tabPast.classList.remove('bg-white', 'shadow-sm', 'text-gray-900');
+      tabPast.classList.add('text-gray-500');
+      upcomingSection.classList.remove('hidden');
+      pastSection.classList.add('hidden');
+    });
+
+    tabPast.addEventListener('click', () => {
+      tabPast.classList.add('bg-white', 'shadow-sm', 'text-gray-900');
+      tabPast.classList.remove('text-gray-500');
+      tabUpcoming.classList.remove('bg-white', 'shadow-sm', 'text-gray-900');
+      tabUpcoming.classList.add('text-gray-500');
+      pastSection.classList.remove('hidden');
+      upcomingSection.classList.add('hidden');
+    });
+
+    // Modal
+    const modal = document.getElementById('createEventModal');
+    document.getElementById('openCreateEvent').addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+    document.getElementById('closeCreateEvent').addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // Toggle interested
+    async function toggleInterested(eventId) {
+      try {
+        const res = await fetch(`/events/interested/${eventId}`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById(`count-${eventId}`).textContent = data.count;
+          const btn = document.getElementById(`btn-${eventId}`);
+          if (data.interested) {
+            btn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 bg-black text-white";
+            btn.innerHTML = '<span>✓ Interested</span>';
+          } else {
+            btn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 bg-[#f4ff26] hover:bg-[#bee84a] text-gray-900";
+            btn.innerHTML = '<span>★ I am Interested</span>';
+          }
+        }
+      } catch (err) {
+        console.error("Interest toggle error:", err);
+      }
+    }
+  </script>
+
+</body>
+</html>
