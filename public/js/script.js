@@ -485,7 +485,7 @@ function renderMorePosts(data) {
         </div>
       </div>
       <div class="w-full bg-gray-50 overflow-hidden">
-        <img loading="lazy" class="w-full aspect-square object-cover" src="${element.postURL}" alt="Post image">
+        <img loading="lazy" class="w-full h-auto" src="${element.postURL}" alt="Post image">
       </div>
       <div class="px-3 py-2 flex items-center gap-4">
         <button class="userlikebutton flex items-center gap-1.5 hover:opacity-70 transition-opacity">

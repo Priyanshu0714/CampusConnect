@@ -848,6 +848,14 @@ video {
   height: 100dvh;
 }
 
+.h-\[100svh\] {
+  height: 100svh;
+}
+
+.h-\[100vh\] {
+  height: 100vh;
+}
+
 .h-auto {
   height: auto;
 }
@@ -1129,10 +1137,6 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
-
-.self-end {
-  align-self: flex-end;
 }
 
 .overflow-hidden {
@@ -1596,6 +1600,10 @@ video {
   padding-bottom: 0.25rem;
 }
 
+.pb-14 {
+  padding-bottom: 3.5rem;
+}
+
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -1606,10 +1614,6 @@ video {
 
 .pb-3 {
   padding-bottom: 0.75rem;
-}
-
-.pb-4 {
-  padding-bottom: 1rem;
 }
 
 .pb-5 {
