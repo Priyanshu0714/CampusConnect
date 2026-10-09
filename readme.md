@@ -14,7 +14,7 @@
 
 **Campus Connect** is a full-stack campus community platform that fosters communication, event discovery, peer networking, and real-time interaction among college students.
 
-Originally created as a 2nd-year college prototype, **v2.0** represents a complete architectural overhaul — transforming a basic student project into a robust, secure, production-grade social platform with instant messaging, live confessions, auto-expiring 24-hour stories, and automated notifications.
+Originally created as a 2nd year college prototype, **v2.0** represents a complete architectural overhaul transforming a basic student project into a robust, secure, production-grade social platform with instant messaging, live confessions, auto-expiring 24-hour stories, and automated notifications.
 
 [Key Features](#-key-features) • [v1 vs v2 Evolution](#-v10-vs-v20-evolution) • [API & Endpoint Previews](#-api-endpoints--endpoint-previews) • [Getting Started](#%EF%B8%8F-getting-started) • [Security](#-security--architecture)
 
@@ -26,12 +26,12 @@ Originally created as a 2nd-year college prototype, **v2.0** represents a comple
 
 | **Login & Student Authentication** | **Home Feed & Infinite Scroll** |
 | :---: | :---: |
-| ![Login Page](images/github/loginpage.png) | ![Post Page](images/github/postpage.png) |
+| ![Login Page](./public/images/github/loginpage.png) | ![Post Page](./public/images/github/postpage.png) |
 | *Bcrypt verification & rate-limiting* | *Like Comment and Delete Post (Admin Only)* |
 
 | **Real-Time Direct Messaging** | **Student Profile & Saved Posts** |
 | :---: | :---: |
-| ![Messaging Interface](images/github/messagepage.png) | ![User Profile Page](images/github/profilepage.png) |
+| ![Messaging Interface](./public/images/github/messagepage.png) | ![User Profile Page](./public/images/github/profilepage.png) |
 | *Socket.io private chat rooms* | *Branch, year, social links & cover upload* |
 
 ---
