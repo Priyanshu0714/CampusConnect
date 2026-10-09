@@ -460,7 +460,7 @@ if (feedContainer && loadMore) {
 
 function renderMorePosts(data) {
   data.posts.forEach((element, index) => {
-    const owner = data.postOwners[index] || { name: element.postOwner, username: element.postOwner, profileimg: "/images/bhupesh.jpeg" };
+    const owner = data.postOwners[index] || { name: element.postOwner, username: element.postOwner, profileimg: "/images/profileicon.svg" };
     const likes = data.TotalLikes[index] || 0;
     const isLiked = data.likedByUser[index] === 1;
 

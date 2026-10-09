@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Campus Confessions — Campus Connect</title>
+  <title>Campus Confessions (Campus Connect)</title>
   <link rel="stylesheet" href="/src/output.css">
   <script src="/socket.io/socket.io.js"></script>
   <style>
@@ -13,7 +13,7 @@
   </style>
 </head>
 
-<body class="h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 overflow-hidden">
+<body class="h-screen h-[100dvh] w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 overflow-hidden">
 
   <!-- ── TOP BAR ───────────────────────────────────────────────────────────── -->
   <header class="h-16 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-4 border-b border-gray-200 flex-shrink-0">
@@ -66,12 +66,12 @@
   </main>
 
   <!-- ── CONFESSION INPUT ──────────────────────────────────────────────────── -->
-  <footer class="w-full p-3 bg-white border-t border-gray-200 flex-shrink-0 max-w-3xl">
+  <footer class="w-full p-3 pb-4 sm:pb-3 bg-white border-t border-gray-200 flex-shrink-0 max-w-3xl sticky bottom-0 z-10">
     <form id="confessionForm" class="flex items-center gap-2">
       <input id="message" type="text" placeholder="Share an anonymous confession or thought..." 
         class="flex-1 px-4 py-2.5 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-[#bee84a] text-gray-900" required>
       <button type="submit" 
-        class="px-5 py-2.5 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-full text-xs font-bold text-gray-900 shadow hover:opacity-90 transition-opacity">
+        class="px-5 py-2.5 bg-gradient-to-r from-[#f4ff26] to-[#bee84a] rounded-full text-xs font-bold text-gray-900 shadow hover:opacity-90 transition-opacity flex-shrink-0">
         Confess
       </button>
     </form>

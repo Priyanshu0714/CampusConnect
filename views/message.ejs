@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Messages — Campus Connect</title>
+  <title>Messages (Campus Connect)</title>
   <link rel="stylesheet" href="/src/output.css">
   <script src="/socket.io/socket.io.js"></script>
   <style>
@@ -13,7 +13,7 @@
   </style>
 </head>
 
-<body class="h-screen w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 overflow-hidden" data-session-user="<%= sessionUsername %>">
+<body class="h-screen h-[100dvh] w-full flex items-center justify-start container m-auto flex-col relative max-w-3xl bg-gray-50 overflow-hidden" data-session-user="<%= sessionUsername %>">
 
   <!-- ── TOP BAR ───────────────────────────────────────────────────────────── -->
   <header class="h-16 flex flex-row items-center justify-between w-full z-50 bg-white max-w-3xl px-4 border-b border-gray-200 flex-shrink-0">
@@ -69,7 +69,7 @@
     </aside>
 
     <!-- Chat Active Box -->
-    <main id="chatbox" class="hidden sm:flex flex-1 h-full flex-col bg-white overflow-hidden relative">
+    <main id="chatbox" class="hidden sm:flex flex-1 h-full flex-col justify-between bg-white overflow-hidden relative w-full">
       
       <!-- Chat Partner Header -->
       <div id="activeUserHeader" class="h-14 px-4 border-b border-gray-100 flex items-center justify-between bg-white flex-shrink-0">
@@ -78,7 +78,7 @@
           <button id="mobileBackToContacts" class="sm:hidden p-1.5 rounded-full hover:bg-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <img id="activeUserImg" src="/images/bhupesh.jpeg" alt="Partner" class="w-9 h-9 rounded-full object-cover ring-1 ring-[#bee84a]">
+          <img id="activeUserImg" src="/images/profileicon.svg" alt="Partner" class="w-9 h-9 rounded-full object-cover ring-1 ring-[#bee84a]">
           <div class="flex flex-col">
             <span id="activeUserName" class="text-sm font-bold text-gray-900 leading-tight">Select a contact</span>
             <span id="activeUserUsername" class="text-[11px] text-gray-400">Offline</span>
@@ -95,10 +95,10 @@
       </div>
 
       <!-- Message Input -->
-      <div class="p-3 border-t border-gray-100 bg-white flex items-center gap-2 flex-shrink-0">
+      <div class="p-3 pb-4 sm:pb-3 border-t border-gray-100 bg-white flex items-center gap-2 flex-shrink-0 sticky bottom-0 z-10 w-full">
         <input id="messageInput" type="text" placeholder="Type a message..." 
           class="flex-1 px-4 py-2.5 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-[#bee84a] text-gray-900">
-        <button id="sendBtn" class="p-2.5 rounded-full bg-gradient-to-r from-[#f4ff26] to-[#bee84a] text-gray-900 shadow hover:opacity-90 transition-opacity">
+        <button id="sendBtn" class="p-2.5 rounded-full bg-gradient-to-r from-[#f4ff26] to-[#bee84a] text-gray-900 shadow hover:opacity-90 transition-opacity flex-shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
